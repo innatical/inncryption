@@ -8,6 +8,10 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "prepublish": "tsc"
+    "prepublish": "tsc",
+    "doc": "typedoc --out docs src"
+  },
+  "devDependencies": {
+    "typedoc": "^0.19.2"
   }
 }

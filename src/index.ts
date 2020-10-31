@@ -7,6 +7,11 @@ import { EncryptedData, ProtectedKeyBundle } from './types'
 
 export { EncryptedData, ProtectedKeyBundle }
 
+/**
+ * Encrypts data for a recipient
+ * @param data The data to encrypt
+ * @param publicKey The recipient's public key
+ */
 export const encryptData = async (
   data: string,
   publicKey: CryptoKey
@@ -42,6 +47,12 @@ export const encryptData = async (
   }
 }
 
+/**
+ * Decrypts data from a sender
+ * @param data The EncryptedData object to decrypt
+ * @param privateKey Your private key
+ * @return The unencrypted data
+ */
 export const decryptData = async (
   data: EncryptedData,
   privateKey: CryptoKey
@@ -71,7 +82,9 @@ export const decryptData = async (
 
   return arrayBufferToString(decryptedData)
 }
-
+/**
+ * Generates a RSA-OAEP keypair for unwrapping session keys
+ */
 export const generateMasterKeypair = async () => {
   return await crypto.subtle.generateKey(
     {
@@ -81,10 +94,15 @@ export const generateMasterKeypair = async () => {
       hash: 'SHA-256'
     },
     true,
-    ['wrapKey', 'unwrapKey']
+    ['unwrapKey']
   )
 }
 
+/**
+ * Creates a protected keybundle to upload to a keyserver
+ * @param keypair The user's master keypair
+ * @param password The password to protect the keypair with
+ */
 export const createProtectedKeyBundle = async (
   keypair: CryptoKeyPair,
   password: string
@@ -116,7 +134,11 @@ export const createProtectedKeyBundle = async (
     iv: arrayBufferToString(iv)
   }
 }
-
+/**
+ * Unlocks a protected keybundle with a password and returns a {@link CryptoKeyPair}
+ * @param password The password used to protect the keybundle
+ * @param keyBundle The user's keybundle
+ */
 export const unlockProtectedKeyBundle = async (
   password: string,
   keyBundle: ProtectedKeyBundle
@@ -157,7 +179,10 @@ export const unlockProtectedKeyBundle = async (
 
   return keyPair
 }
-
+/**
+ * Imports another user's public key
+ * @param publicKey
+ */
 export const importPublicKey = async (publicKey: string) => {
   return await crypto.subtle.importKey(
     'raw',
