@@ -1,12 +1,12 @@
 export interface EncryptedData {
-  data: string
-  key: string
-  iv: string
+  data: number[]
+  key: number[]
+  iv: number[]
 }
 
 export interface ProtectedKeyBundle {
-  privateKey: string
-  publicKey: string
-  salt: string
-  iv: string
+  privateKey: number[]
+  publicKey: number[]
+  salt: number[]
+  iv: number[]
 }

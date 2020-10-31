@@ -1,9 +1,16 @@
 import {
   stringToArrayBuffer,
   arrayBufferToString,
+  arrayBufferToArray,
+  arrayToArrayBuffer,
   deriveKeyFromPassword
 } from './util'
 import { EncryptedData, ProtectedKeyBundle } from './types'
+
+// Required for Node.js support
+let crypto = process?.versions?.node
+  ? require('crypto').webcrypto
+  : window.crypto
 
 export { EncryptedData, ProtectedKeyBundle }
 
@@ -41,9 +48,9 @@ export const encryptData = async (
   )
 
   return {
-    key: arrayBufferToString(wrappedKey),
-    data: arrayBufferToString(encryptedData),
-    iv: arrayBufferToString(iv)
+    key: arrayBufferToArray(wrappedKey),
+    data: arrayBufferToArray(encryptedData),
+    iv: arrayBufferToArray(iv)
   }
 }
 
@@ -59,7 +66,7 @@ export const decryptData = async (
 ) => {
   const sessionKey = await crypto.subtle.unwrapKey(
     'raw',
-    stringToArrayBuffer(data.key),
+    arrayToArrayBuffer(data.key),
     privateKey,
     {
       name: 'RSA-OAEP'
@@ -67,17 +74,17 @@ export const decryptData = async (
     {
       name: 'AES-GCM'
     },
-    false,
+    true,
     ['decrypt']
   )
-  const iv = stringToArrayBuffer(data.iv)
+  const iv = arrayToArrayBuffer(data.iv)
   const decryptedData = await crypto.subtle.decrypt(
     {
       name: 'AES-GCM',
       iv
     },
     sessionKey,
-    stringToArrayBuffer(data.data)
+    arrayToArrayBuffer(data.data)
   )
 
   return arrayBufferToString(decryptedData)
@@ -89,12 +96,12 @@ export const generateMasterKeypair = async () => {
   return await crypto.subtle.generateKey(
     {
       name: 'RSA-OAEP',
-      modulusLength: 2048,
+      modulusLength: 4096,
       publicExponent: new Uint8Array([1, 0, 1]),
       hash: 'SHA-256'
     },
     true,
-    ['unwrapKey']
+    ['unwrapKey', 'wrapKey']
   )
 }
 
@@ -111,9 +118,8 @@ export const createProtectedKeyBundle = async (
   const derivedKey = await deriveKeyFromPassword(password, salt)
 
   const iv = crypto.getRandomValues(new Uint8Array(12))
-
   const wrappedPrivateKey = await crypto.subtle.wrapKey(
-    'raw',
+    'pkcs8',
     keypair.privateKey,
     derivedKey,
     {
@@ -121,61 +127,61 @@ export const createProtectedKeyBundle = async (
       iv
     }
   )
-
   const exportedPublicKey = await crypto.subtle.exportKey(
-    'raw',
+    'spki',
     keypair.publicKey
   )
 
   return {
-    privateKey: arrayBufferToString(wrappedPrivateKey),
-    publicKey: arrayBufferToString(exportedPublicKey),
-    salt: arrayBufferToString(salt),
-    iv: arrayBufferToString(iv)
+    privateKey: arrayBufferToArray(wrappedPrivateKey),
+    publicKey: arrayBufferToArray(exportedPublicKey),
+    salt: arrayBufferToArray(salt),
+    iv: arrayBufferToArray(iv)
   }
 }
 /**
  * Unlocks a protected keybundle with a password and returns a {@link CryptoKeyPair}
- * @param password The password used to protect the keybundle
  * @param keyBundle The user's keybundle
+ * @param password The password used to protect the keybundle
  */
 export const unlockProtectedKeyBundle = async (
-  password: string,
-  keyBundle: ProtectedKeyBundle
+  keyBundle: ProtectedKeyBundle,
+  password: string
 ): Promise<CryptoKeyPair> => {
   const derivedKey = await deriveKeyFromPassword(
     password,
-    stringToArrayBuffer(keyBundle.salt)
+    arrayToArrayBuffer(keyBundle.salt)
   )
 
   const unwrappedPrivateKey = await crypto.subtle.unwrapKey(
-    'raw',
-    stringToArrayBuffer(keyBundle.privateKey),
+    'pkcs8',
+    arrayToArrayBuffer(keyBundle.privateKey),
     derivedKey,
     {
       name: 'AES-GCM',
-      iv: stringToArrayBuffer(keyBundle.iv)
+      iv: arrayToArrayBuffer(keyBundle.iv)
     },
-    {
-      name: 'RSA-OAEP',
-      hash: 'SHA-256'
-    },
-    false,
-    ['unwrapKey']
-  )
-
-  const keyPair = new CryptoKeyPair()
-  keyPair.privateKey = unwrappedPrivateKey
-  keyPair.publicKey = await crypto.subtle.importKey(
-    'raw',
-    stringToArrayBuffer(keyBundle.publicKey),
     {
       name: 'RSA-OAEP',
       hash: 'SHA-256'
     },
     true,
-    ['wrapKey']
+    ['unwrapKey']
   )
+
+  const keyPair: CryptoKeyPair = {
+    privateKey: unwrappedPrivateKey,
+    publicKey: await crypto.subtle.importKey(
+      'spki',
+      arrayToArrayBuffer(keyBundle.publicKey),
+      {
+        name: 'RSA-OAEP',
+        hash: 'SHA-256'
+      },
+      true,
+      ['wrapKey']
+    )
+  }
 
   return keyPair
 }
@@ -183,10 +189,10 @@ export const unlockProtectedKeyBundle = async (
  * Imports another user's public key
  * @param publicKey
  */
-export const importPublicKey = async (publicKey: string) => {
+export const importPublicKey = async (publicKey: number[]) => {
   return await crypto.subtle.importKey(
-    'raw',
-    stringToArrayBuffer(publicKey),
+    'spki',
+    arrayToArrayBuffer(publicKey),
     {
       name: 'RSA-OAEP',
       hash: 'SHA-256'

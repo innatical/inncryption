@@ -70,10 +70,18 @@
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
+						<section class="tsd-index-section tsd-is-not-exported">
+							<h3>Variables</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-variable tsd-parent-kind-module tsd-is-not-exported"><a href="_util_.html#crypto" class="tsd-kind-icon">crypto</a></li>
+							</ul>
+						</section>
 						<section class="tsd-index-section ">
 							<h3>Functions</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_util_.html#arraybuffertoarray" class="tsd-kind-icon">array<wbr>Buffer<wbr>ToArray</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_util_.html#arraybuffertostring" class="tsd-kind-icon">array<wbr>Buffer<wbr>ToString</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_util_.html#arraytoarraybuffer" class="tsd-kind-icon">array<wbr>ToArray<wbr>Buffer</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_util_.html#derivekeyfrompassword" class="tsd-kind-icon">derive<wbr>Key<wbr>From<wbr>Password</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_util_.html#stringtoarraybuffer" class="tsd-kind-icon">string<wbr>ToArray<wbr>Buffer</a></li>
 							</ul>
@@ -81,8 +89,44 @@
 					</div>
 				</section>
 			</section>
+			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
+				<h2>Variables</h2>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-module tsd-is-not-exported">
+					<a name="crypto" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagLet">Let</span> crypto</h3>
+					<div class="tsd-signature tsd-kind-icon">crypto<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> = process?.versions?.node? require(&#x27;crypto&#x27;).webcrypto: window.crypto</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/innatical/inncryption/blob/5bf352b/src/util.ts#L2">util.ts:2</a></li>
+						</ul>
+					</aside>
+				</section>
+			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Functions</h2>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="arraybuffertoarray" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> array<wbr>Buffer<wbr>ToArray</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">array<wbr>Buffer<wbr>ToArray<span class="tsd-signature-symbol">(</span>arrayBuffer<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ArrayBuffer</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/innatical/inncryption/blob/5bf352b/src/util.ts#L16">util.ts:16</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>arrayBuffer: <span class="tsd-signature-type">ArrayBuffer</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
 					<a name="arraybuffertostring" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> array<wbr>Buffer<wbr>ToString</h3>
@@ -93,7 +137,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/innatical/inncryption/blob/29fdbed/src/util.ts#L6">util.ts:6</a></li>
+									<li>Defined in <a href="https://github.com/innatical/inncryption/blob/5bf352b/src/util.ts#L11">util.ts:11</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -107,16 +151,39 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="derivekeyfrompassword" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> derive<wbr>Key<wbr>From<wbr>Password</h3>
+					<a name="arraytoarraybuffer" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> array<wbr>ToArray<wbr>Buffer</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">derive<wbr>Key<wbr>From<wbr>Password<span class="tsd-signature-symbol">(</span>password<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, salt<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">CryptoKey</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">array<wbr>ToArray<wbr>Buffer<span class="tsd-signature-symbol">(</span>array<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ArrayBufferLike</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/innatical/inncryption/blob/29fdbed/src/util.ts#L11">util.ts:11</a></li>
+									<li>Defined in <a href="https://github.com/innatical/inncryption/blob/5bf352b/src/util.ts#L20">util.ts:20</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>array: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">ArrayBufferLike</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="derivekeyfrompassword" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> derive<wbr>Key<wbr>From<wbr>Password</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">derive<wbr>Key<wbr>From<wbr>Password<span class="tsd-signature-symbol">(</span>password<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, salt<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ArrayBuffer</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/innatical/inncryption/blob/5bf352b/src/util.ts#L24">util.ts:24</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -125,10 +192,10 @@
 									<h5>password: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
-									<h5>salt: <span class="tsd-signature-type">Uint8Array</span></h5>
+									<h5>salt: <span class="tsd-signature-type">ArrayBuffer</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">CryptoKey</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -142,7 +209,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/innatical/inncryption/blob/29fdbed/src/util.ts#L1">util.ts:1</a></li>
+									<li>Defined in <a href="https://github.com/innatical/inncryption/blob/5bf352b/src/util.ts#L6">util.ts:6</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -176,8 +243,17 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-variable tsd-parent-kind-module tsd-is-not-exported">
+						<a href="_util_.html#crypto" class="tsd-kind-icon">crypto</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="_util_.html#arraybuffertoarray" class="tsd-kind-icon">array<wbr>Buffer<wbr>ToArray</a>
+					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module">
 						<a href="_util_.html#arraybuffertostring" class="tsd-kind-icon">array<wbr>Buffer<wbr>ToString</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="_util_.html#arraytoarraybuffer" class="tsd-kind-icon">array<wbr>ToArray<wbr>Buffer</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module">
 						<a href="_util_.html#derivekeyfrompassword" class="tsd-kind-icon">derive<wbr>Key<wbr>From<wbr>Password</a>
@@ -195,6 +271,7 @@
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
 			<ul class="tsd-legend">
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
 				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
 			</ul>
 			<ul class="tsd-legend">

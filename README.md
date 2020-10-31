@@ -2,6 +2,8 @@
 
 Inncryption is a crypto protocol built on top of webcrypto. It aims to be a simple way of implementing end-to-end encryption.
 
+Note: node.js is not supported at this time.
+
 # Installation
 
 ```sh
