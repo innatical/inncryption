@@ -1,0 +1,13 @@
+{
+  "name": "inncryption",
+  "version": "0.0.1",
+  "description": "An awesome crypto library",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "author": "Innatical",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "prepublish": "tsc"
+  }
+}
