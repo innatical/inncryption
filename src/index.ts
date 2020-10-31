@@ -1,18 +1,11 @@
-export interface EncryptedData {
-  data: string
-  key: string
-  iv: string
-}
+import {
+  stringToArrayBuffer,
+  arrayBufferToString,
+  deriveKeyFromPassword
+} from './util'
+import { EncryptedData, ProtectedKeyBundle } from './types'
 
-const stringToArrayBuffer = (str: string) => {
-  const encoder = new TextEncoder()
-  return encoder.encode(str)
-}
-
-const arrayBufferToString = (arrayBuffer: ArrayBuffer) => {
-  const decoder = new TextDecoder()
-  return decoder.decode(arrayBuffer)
-}
+export { EncryptedData, ProtectedKeyBundle }
 
 export const encryptData = async (
   data: string,
@@ -77,4 +70,103 @@ export const decryptData = async (
   )
 
   return arrayBufferToString(decryptedData)
+}
+
+export const generateMasterKeypair = async () => {
+  return await crypto.subtle.generateKey(
+    {
+      name: 'RSA-OAEP',
+      modulusLength: 2048,
+      publicExponent: new Uint8Array([1, 0, 1]),
+      hash: 'SHA-256'
+    },
+    true,
+    ['wrapKey', 'unwrapKey']
+  )
+}
+
+export const createProtectedKeyBundle = async (
+  keypair: CryptoKeyPair,
+  password: string
+): Promise<ProtectedKeyBundle> => {
+  const salt = crypto.getRandomValues(new Uint8Array(16))
+  const derivedKey = await deriveKeyFromPassword(password, salt)
+
+  const iv = crypto.getRandomValues(new Uint8Array(12))
+
+  const wrappedPrivateKey = await crypto.subtle.wrapKey(
+    'raw',
+    keypair.privateKey,
+    derivedKey,
+    {
+      name: 'AES-GCM',
+      iv
+    }
+  )
+
+  const exportedPublicKey = await crypto.subtle.exportKey(
+    'raw',
+    keypair.publicKey
+  )
+
+  return {
+    privateKey: arrayBufferToString(wrappedPrivateKey),
+    publicKey: arrayBufferToString(exportedPublicKey),
+    salt: arrayBufferToString(salt),
+    iv: arrayBufferToString(iv)
+  }
+}
+
+export const unlockProtectedKeyBundle = async (
+  password: string,
+  keyBundle: ProtectedKeyBundle
+): Promise<CryptoKeyPair> => {
+  const derivedKey = await deriveKeyFromPassword(
+    password,
+    stringToArrayBuffer(keyBundle.salt)
+  )
+
+  const unwrappedPrivateKey = await crypto.subtle.unwrapKey(
+    'raw',
+    stringToArrayBuffer(keyBundle.privateKey),
+    derivedKey,
+    {
+      name: 'AES-GCM',
+      iv: stringToArrayBuffer(keyBundle.iv)
+    },
+    {
+      name: 'RSA-OAEP',
+      hash: 'SHA-256'
+    },
+    false,
+    ['unwrapKey']
+  )
+
+  const keyPair = new CryptoKeyPair()
+  keyPair.privateKey = unwrappedPrivateKey
+  keyPair.publicKey = await crypto.subtle.importKey(
+    'raw',
+    stringToArrayBuffer(keyBundle.publicKey),
+    {
+      name: 'RSA-OAEP',
+      hash: 'SHA-256'
+    },
+    true,
+    ['wrapKey']
+  )
+
+  return keyPair
+}
+
+export const importPublicKey = async (publicKey: string) => {
+  return await crypto.subtle.importKey(
+    'raw',
+    stringToArrayBuffer(publicKey),
+    {
+      name: 'RSA-OAEP',
+      hash: 'SHA-256'
+    },
+    true,
+    ['wrapKey']
+  )
 }
