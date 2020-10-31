@@ -1,4 +1,4 @@
-# Inncryption
+# Inncryption - WIP
 
 Inncryption is a crypto protocol built on top of webcrypto. It aims to be a simple way of implementing end-to-end encryption.
 
