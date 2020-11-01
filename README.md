@@ -5,7 +5,7 @@ Inncryption is a crypto protocol built on top of webcrypto. It aims to be a simp
 # Installation
 
 ```sh
-yarn add inncryption
+yarn add @innatical/inncryption
 ```
 
 # Documentation

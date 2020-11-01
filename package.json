@@ -1,5 +1,5 @@
 {
-  "name": "inncryption",
+  "name": "@innatical/inncryption",
   "version": "0.0.4",
   "description": "An awesome crypto library",
   "main": "dist/index.js",
