@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>ProtectedKeyBundle | inncryption</title>
+	<title>SignedMessage | inncryption</title>
 	<meta name="description" content="Documentation for inncryption">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -59,10 +59,10 @@
 					<a href="../modules/_types_.html">&quot;types&quot;</a>
 				</li>
 				<li>
-					<a href="_types_.protectedkeybundle.html">ProtectedKeyBundle</a>
+					<a href="_types_.signedmessage.html">SignedMessage</a>
 				</li>
 			</ul>
-			<h1>Interface ProtectedKeyBundle</h1>
+			<h1>Interface SignedMessage</h1>
 		</div>
 	</div>
 </header>
@@ -73,7 +73,12 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">ProtectedKeyBundle</span>
+						<span class="target">SignedMessage</span>
+						<ul class="tsd-hierarchy">
+							<li>
+								<a href="_types_.encryptedmessage.html" class="tsd-signature-type">EncryptedMessage</a>
+							</li>
+						</ul>
 					</li>
 				</ul>
 			</section>
@@ -84,10 +89,8 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_types_.protectedkeybundle.html#iv" class="tsd-kind-icon">iv</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_types_.protectedkeybundle.html#privatekey" class="tsd-kind-icon">private<wbr>Key</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_types_.protectedkeybundle.html#publickey" class="tsd-kind-icon">public<wbr>Key</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_types_.protectedkeybundle.html#salt" class="tsd-kind-icon">salt</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_types_.signedmessage.html#data" class="tsd-kind-icon">data</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_types_.signedmessage.html#signature" class="tsd-kind-icon">signature</a></li>
 							</ul>
 						</section>
 					</div>
@@ -96,42 +99,22 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="iv" class="tsd-anchor"></a>
-					<h3>iv</h3>
-					<div class="tsd-signature tsd-kind-icon">iv<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></div>
+					<a name="data" class="tsd-anchor"></a>
+					<h3>data</h3>
+					<div class="tsd-signature tsd-kind-icon">data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/innatical/inncryption/blob/cf916c5/src/types.ts#L11">types.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/innatical/inncryption/blob/f00f005/src/types.ts#L2">types.ts:2</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="privatekey" class="tsd-anchor"></a>
-					<h3>private<wbr>Key</h3>
-					<div class="tsd-signature tsd-kind-icon">private<wbr>Key<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></div>
+					<a name="signature" class="tsd-anchor"></a>
+					<h3>signature</h3>
+					<div class="tsd-signature tsd-kind-icon">signature<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/innatical/inncryption/blob/cf916c5/src/types.ts#L8">types.ts:8</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="publickey" class="tsd-anchor"></a>
-					<h3>public<wbr>Key</h3>
-					<div class="tsd-signature tsd-kind-icon">public<wbr>Key<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/innatical/inncryption/blob/cf916c5/src/types.ts#L9">types.ts:9</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="salt" class="tsd-anchor"></a>
-					<h3>salt</h3>
-					<div class="tsd-signature tsd-kind-icon">salt<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/innatical/inncryption/blob/cf916c5/src/types.ts#L10">types.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/innatical/inncryption/blob/f00f005/src/types.ts#L3">types.ts:3</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -157,29 +140,35 @@
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_types_.encrypteddata.html" class="tsd-kind-icon">Encrypted<wbr>Data</a>
+						<a href="_types_.encryptedmessage.html" class="tsd-kind-icon">Encrypted<wbr>Message</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="_types_.keychain.html" class="tsd-kind-icon">Keychain</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="_types_.protectedkeypair.html" class="tsd-kind-icon">Protected<wbr>Key<wbr>Pair</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="_types_.protectedkeychain.html" class="tsd-kind-icon">Protected<wbr>Keychain</a>
 					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-parent-kind-module">
-						<a href="_types_.protectedkeybundle.html" class="tsd-kind-icon">Protected<wbr>Key<wbr>Bundle</a>
+						<a href="_types_.signedmessage.html" class="tsd-kind-icon">Signed<wbr>Message</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_types_.protectedkeybundle.html#iv" class="tsd-kind-icon">iv</a>
+								<a href="_types_.signedmessage.html#data" class="tsd-kind-icon">data</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_types_.protectedkeybundle.html#privatekey" class="tsd-kind-icon">private<wbr>Key</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_types_.protectedkeybundle.html#publickey" class="tsd-kind-icon">public<wbr>Key</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_types_.protectedkeybundle.html#salt" class="tsd-kind-icon">salt</a>
+								<a href="_types_.signedmessage.html#signature" class="tsd-kind-icon">signature</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="_types_.verifiedmessage.html" class="tsd-kind-icon">Verified<wbr>Message</a>
+					</li>
 				</ul>
 			</nav>
 		</div>

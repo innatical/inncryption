@@ -79,12 +79,14 @@
 						<section class="tsd-index-section ">
 							<h3>Functions</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_index_.html#createprotectedkeybundle" class="tsd-kind-icon">create<wbr>Protected<wbr>Key<wbr>Bundle</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_index_.html#decryptdata" class="tsd-kind-icon">decrypt<wbr>Data</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_index_.html#encryptdata" class="tsd-kind-icon">encrypt<wbr>Data</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_index_.html#generatemasterkeypair" class="tsd-kind-icon">generate<wbr>Master<wbr>Keypair</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_index_.html#createprotectedkeychain" class="tsd-kind-icon">create<wbr>Protected<wbr>Keychain</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_index_.html#decryptmessage" class="tsd-kind-icon">decrypt<wbr>Message</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_index_.html#encryptmessage" class="tsd-kind-icon">encrypt<wbr>Message</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_index_.html#generatekeychain" class="tsd-kind-icon">generate<wbr>Keychain</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_index_.html#importpublickey" class="tsd-kind-icon">import<wbr>Public<wbr>Key</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_index_.html#unlockprotectedkeybundle" class="tsd-kind-icon">unlock<wbr>Protected<wbr>Key<wbr>Bundle</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_index_.html#signmessage" class="tsd-kind-icon">sign<wbr>Message</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_index_.html#unlockprotectedkeychain" class="tsd-kind-icon">unlock<wbr>Protected<wbr>Keychain</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_index_.html#verifymessage" class="tsd-kind-icon">verify<wbr>Message</a></li>
 							</ul>
 						</section>
 					</div>
@@ -95,10 +97,10 @@
 				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-module tsd-is-not-exported">
 					<a name="crypto" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagLet">Let</span> crypto</h3>
-					<div class="tsd-signature tsd-kind-icon">crypto<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> = process?.versions?.node? require(&#x27;crypto&#x27;).webcrypto: window.crypto</span></div>
+					<div class="tsd-signature tsd-kind-icon">crypto<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Crypto</span><span class="tsd-signature-symbol"> = process?.versions?.node? require(&#x27;crypto&#x27;).webcrypto: window.crypto</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/innatical/inncryption/blob/cf916c5/src/index.ts#L11">index.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/innatical/inncryption/blob/f00f005/src/index.ts#L18">index.ts:18</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -106,30 +108,30 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Functions</h2>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="createprotectedkeybundle" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> create<wbr>Protected<wbr>Key<wbr>Bundle</h3>
+					<a name="createprotectedkeychain" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> create<wbr>Protected<wbr>Keychain</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">create<wbr>Protected<wbr>Key<wbr>Bundle<span class="tsd-signature-symbol">(</span>keypair<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">CryptoKeyPair</span>, password<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_types_.protectedkeybundle.html" class="tsd-signature-type">ProtectedKeyBundle</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">create<wbr>Protected<wbr>Keychain<span class="tsd-signature-symbol">(</span>keychain<span class="tsd-signature-symbol">: </span><a href="../interfaces/_types_.keychain.html" class="tsd-signature-type">Keychain</a>, password<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_types_.protectedkeychain.html" class="tsd-signature-type">ProtectedKeychain</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/innatical/inncryption/blob/cf916c5/src/index.ts#L113">index.ts:113</a></li>
+									<li>Defined in <a href="https://github.com/innatical/inncryption/blob/f00f005/src/index.ts#L196">index.ts:196</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Creates a protected keybundle to upload to a keyserver</p>
+									<p>Creates a protected keychain to upload to a keyserver</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>keypair: <span class="tsd-signature-type">CryptoKeyPair</span></h5>
+									<h5>keychain: <a href="../interfaces/_types_.keychain.html" class="tsd-signature-type">Keychain</a></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
-											<p>The user&#39;s master keypair</p>
+											<p>The user&#39;s keychain</p>
 										</div>
 									</div>
 								</li>
@@ -137,117 +139,129 @@
 									<h5>password: <span class="tsd-signature-type">string</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
-											<p>The password to protect the keypair with</p>
+											<p>The password to protect the keychain with</p>
 										</div>
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_types_.protectedkeybundle.html" class="tsd-signature-type">ProtectedKeyBundle</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_types_.protectedkeychain.html" class="tsd-signature-type">ProtectedKeychain</a><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="decryptdata" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> decrypt<wbr>Data</h3>
+					<a name="decryptmessage" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> decrypt<wbr>Message</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">decrypt<wbr>Data<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">: </span><a href="../interfaces/_types_.encrypteddata.html" class="tsd-signature-type">EncryptedData</a>, privateKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">CryptoKey</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">decrypt<wbr>Message<span class="tsd-signature-symbol">(</span>keychain<span class="tsd-signature-symbol">: </span><a href="../interfaces/_types_.keychain.html" class="tsd-signature-type">Keychain</a>, publicSigningKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">CryptoKey</span>, data<span class="tsd-signature-symbol">: </span><a href="../interfaces/_types_.encryptedmessage.html" class="tsd-signature-type">EncryptedMessage</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_types_.verifiedmessage.html" class="tsd-signature-type">VerifiedMessage</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/innatical/inncryption/blob/cf916c5/src/index.ts#L63">index.ts:63</a></li>
+									<li>Defined in <a href="https://github.com/innatical/inncryption/blob/f00f005/src/index.ts#L79">index.ts:79</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Decrypts data from a sender</p>
+									<p>Decrypts and verifies the signature of a message</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>data: <a href="../interfaces/_types_.encrypteddata.html" class="tsd-signature-type">EncryptedData</a></h5>
+									<h5>keychain: <a href="../interfaces/_types_.keychain.html" class="tsd-signature-type">Keychain</a></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
-											<p>The EncryptedData object to decrypt</p>
+											<p>The recpient&#39;s keychain</p>
 										</div>
 									</div>
 								</li>
 								<li>
-									<h5>privateKey: <span class="tsd-signature-type">CryptoKey</span></h5>
+									<h5>publicSigningKey: <span class="tsd-signature-type">CryptoKey</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
-											<p>Your private key</p>
+											<p>The sender&#39;s public signing key</p>
 										</div>
 									</div>
 								</li>
+								<li>
+									<h5>data: <a href="../interfaces/_types_.encryptedmessage.html" class="tsd-signature-type">EncryptedMessage</a></h5>
+								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>The unencrypted data</p>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_types_.verifiedmessage.html" class="tsd-signature-type">VerifiedMessage</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>The unencrypted and verified message</p>
 						</li>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="encryptdata" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> encrypt<wbr>Data</h3>
+					<a name="encryptmessage" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> encrypt<wbr>Message</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">encrypt<wbr>Data<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, publicKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">CryptoKey</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_types_.encrypteddata.html" class="tsd-signature-type">EncryptedData</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">encrypt<wbr>Message<span class="tsd-signature-symbol">(</span>keychain<span class="tsd-signature-symbol">: </span><a href="../interfaces/_types_.keychain.html" class="tsd-signature-type">Keychain</a>, publicEncryptionKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">CryptoKey</span>, message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_types_.encryptedmessage.html" class="tsd-signature-type">EncryptedMessage</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/innatical/inncryption/blob/cf916c5/src/index.ts#L22">index.ts:22</a></li>
+									<li>Defined in <a href="https://github.com/innatical/inncryption/blob/f00f005/src/index.ts#L31">index.ts:31</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Encrypts data for a recipient</p>
+									<p>Encrypts and signs a message</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>data: <span class="tsd-signature-type">string</span></h5>
+									<h5>keychain: <a href="../interfaces/_types_.keychain.html" class="tsd-signature-type">Keychain</a></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
-											<p>The data to encrypt</p>
+											<p>The sender&#39;s keychain</p>
 										</div>
 									</div>
 								</li>
 								<li>
-									<h5>publicKey: <span class="tsd-signature-type">CryptoKey</span></h5>
+									<h5>publicEncryptionKey: <span class="tsd-signature-type">CryptoKey</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
-											<p>The recipient&#39;s public key</p>
+											<p>The recipent&#39;s public encryption key</p>
+										</div>
+									</div>
+								</li>
+								<li>
+									<h5>message: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>The message to encrypt</p>
 										</div>
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_types_.encrypteddata.html" class="tsd-signature-type">EncryptedData</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_types_.encryptedmessage.html" class="tsd-signature-type">EncryptedMessage</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>The encrypted and signed message</p>
 						</li>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="generatemasterkeypair" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> generate<wbr>Master<wbr>Keypair</h3>
+					<a name="generatekeychain" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> generate<wbr>Keychain</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">generate<wbr>Master<wbr>Keypair<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">generate<wbr>Keychain<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_types_.keychain.html" class="tsd-signature-type">Keychain</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/innatical/inncryption/blob/cf916c5/src/index.ts#L95">index.ts:95</a></li>
+									<li>Defined in <a href="https://github.com/innatical/inncryption/blob/f00f005/src/index.ts#L162">index.ts:162</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Generates a RSA-OAEP keypair for unwrapping session keys</p>
+									<p>Generates a new <a href="../interfaces/_types_.keychain.html">Keychain</a> used for encrypting session keys and signing</p>
 								</div>
 							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_types_.keychain.html" class="tsd-signature-type">Keychain</a><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -255,13 +269,13 @@
 					<a name="importpublickey" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> import<wbr>Public<wbr>Key</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">import<wbr>Public<wbr>Key<span class="tsd-signature-symbol">(</span>publicKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">import<wbr>Public<wbr>Key<span class="tsd-signature-symbol">(</span>publicKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span>, type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"encryption"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"signing"</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">CryptoKey</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/innatical/inncryption/blob/cf916c5/src/index.ts#L192">index.ts:192</a></li>
+									<li>Defined in <a href="https://github.com/innatical/inncryption/blob/f00f005/src/index.ts#L236">index.ts:236</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -275,39 +289,74 @@
 									<h5>publicKey: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
+											<p>The other user&#39;s public key</p>
+										</div>
+									</div>
+								</li>
+								<li>
+									<h5>type: <span class="tsd-signature-type">"encryption"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"signing"</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>The type of public key</p>
 										</div>
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">CryptoKey</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="unlockprotectedkeybundle" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> unlock<wbr>Protected<wbr>Key<wbr>Bundle</h3>
+					<a name="signmessage" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> sign<wbr>Message</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">unlock<wbr>Protected<wbr>Key<wbr>Bundle<span class="tsd-signature-symbol">(</span>keyBundle<span class="tsd-signature-symbol">: </span><a href="../interfaces/_types_.protectedkeybundle.html" class="tsd-signature-type">ProtectedKeyBundle</a>, password<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">CryptoKeyPair</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">sign<wbr>Message<span class="tsd-signature-symbol">(</span>keychain<span class="tsd-signature-symbol">: </span><a href="../interfaces/_types_.keychain.html" class="tsd-signature-type">Keychain</a>, message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_types_.signedmessage.html" class="tsd-signature-type">SignedMessage</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/innatical/inncryption/blob/cf916c5/src/index.ts#L147">index.ts:147</a></li>
+									<li>Defined in <a href="https://github.com/innatical/inncryption/blob/f00f005/src/index.ts#L122">index.ts:122</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>keychain: <a href="../interfaces/_types_.keychain.html" class="tsd-signature-type">Keychain</a></h5>
+								</li>
+								<li>
+									<h5>message: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_types_.signedmessage.html" class="tsd-signature-type">SignedMessage</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="unlockprotectedkeychain" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> unlock<wbr>Protected<wbr>Keychain</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">unlock<wbr>Protected<wbr>Keychain<span class="tsd-signature-symbol">(</span>protectedKeychain<span class="tsd-signature-symbol">: </span><a href="../interfaces/_types_.protectedkeychain.html" class="tsd-signature-type">ProtectedKeychain</a>, password<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_types_.keychain.html" class="tsd-signature-type">Keychain</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/innatical/inncryption/blob/f00f005/src/index.ts#L213">index.ts:213</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Unlocks a protected keybundle with a password and returns a {@link CryptoKeyPair}</p>
+									<p>Unlocks a protected keychain with the user&#39;s password</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>keyBundle: <a href="../interfaces/_types_.protectedkeybundle.html" class="tsd-signature-type">ProtectedKeyBundle</a></h5>
+									<h5>protectedKeychain: <a href="../interfaces/_types_.protectedkeychain.html" class="tsd-signature-type">ProtectedKeychain</a></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
-											<p>The user&#39;s keybundle</p>
+											<p>The user&#39;s protected keychain</p>
 										</div>
 									</div>
 								</li>
@@ -315,12 +364,38 @@
 									<h5>password: <span class="tsd-signature-type">string</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
-											<p>The password used to protect the keybundle</p>
+											<p>The password used to protect the keychain</p>
 										</div>
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">CryptoKeyPair</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_types_.keychain.html" class="tsd-signature-type">Keychain</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="verifymessage" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> verify<wbr>Message</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">verify<wbr>Message<span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><a href="../interfaces/_types_.signedmessage.html" class="tsd-signature-type">SignedMessage</a>, publicKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">CryptoKey</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_types_.verifiedmessage.html" class="tsd-signature-type">VerifiedMessage</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/innatical/inncryption/blob/f00f005/src/index.ts#L141">index.ts:141</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>message: <a href="../interfaces/_types_.signedmessage.html" class="tsd-signature-type">SignedMessage</a></h5>
+								</li>
+								<li>
+									<h5>publicKey: <span class="tsd-signature-type">CryptoKey</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_types_.verifiedmessage.html" class="tsd-signature-type">VerifiedMessage</a><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -349,22 +424,28 @@
 						<a href="_index_.html#crypto" class="tsd-kind-icon">crypto</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module">
-						<a href="_index_.html#createprotectedkeybundle" class="tsd-kind-icon">create<wbr>Protected<wbr>Key<wbr>Bundle</a>
+						<a href="_index_.html#createprotectedkeychain" class="tsd-kind-icon">create<wbr>Protected<wbr>Keychain</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module">
-						<a href="_index_.html#decryptdata" class="tsd-kind-icon">decrypt<wbr>Data</a>
+						<a href="_index_.html#decryptmessage" class="tsd-kind-icon">decrypt<wbr>Message</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module">
-						<a href="_index_.html#encryptdata" class="tsd-kind-icon">encrypt<wbr>Data</a>
+						<a href="_index_.html#encryptmessage" class="tsd-kind-icon">encrypt<wbr>Message</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module">
-						<a href="_index_.html#generatemasterkeypair" class="tsd-kind-icon">generate<wbr>Master<wbr>Keypair</a>
+						<a href="_index_.html#generatekeychain" class="tsd-kind-icon">generate<wbr>Keychain</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module">
 						<a href="_index_.html#importpublickey" class="tsd-kind-icon">import<wbr>Public<wbr>Key</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module">
-						<a href="_index_.html#unlockprotectedkeybundle" class="tsd-kind-icon">unlock<wbr>Protected<wbr>Key<wbr>Bundle</a>
+						<a href="_index_.html#signmessage" class="tsd-kind-icon">sign<wbr>Message</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="_index_.html#unlockprotectedkeychain" class="tsd-kind-icon">unlock<wbr>Protected<wbr>Keychain</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="_index_.html#verifymessage" class="tsd-kind-icon">verify<wbr>Message</a>
 					</li>
 				</ul>
 			</nav>
