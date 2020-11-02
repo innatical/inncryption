@@ -24,7 +24,7 @@ export { EncryptedMessage, ProtectedKeychain }
 /**
  * Encrypts and signs a message
  * @param keychain The sender's keychain
- * @param publicEncryptionKey The recipent's public encryption key
+ * @param publicEncryptionKey The recipient's public encryption key
  * @param message The message to encrypt
  * @returns The encrypted and signed message
  */
@@ -72,7 +72,7 @@ export const encryptMessage = async (
 
 /**
  * Decrypts and verifies the signature of a message
- * @param keychain The recpient's keychain
+ * @param keychain The recipient's keychain
  * @param publicSigningKey The sender's public signing key
  * @return The unencrypted and verified message
  */
