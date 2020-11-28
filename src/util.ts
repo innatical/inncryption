@@ -23,10 +23,36 @@ export const arrayToArrayBuffer = (array: number[]) => {
   return new Uint8Array(array).buffer
 }
 
+export const deriveBitsFromPassword = async (
+  password: string,
+  salt: ArrayBuffer
+): Promise<ArrayBuffer> => {
+  const baseKey = await crypto.subtle.importKey(
+    'raw',
+    stringToArrayBuffer(password),
+    { name: 'PBKDF2' },
+    false,
+    ['deriveBits']
+  )
+
+  const derivedBits = await crypto.subtle.deriveBits(
+    {
+      name: 'PBKDF2',
+      hash: 'SHA-256',
+      salt: salt,
+      iterations: 100000
+    },
+    baseKey,
+    256
+  )
+
+  return derivedBits
+}
+
 export const deriveKeyFromPassword = async (
   password: string,
   salt: ArrayBuffer
-) => {
+): Promise<CryptoKey> => {
   const baseKey = await crypto.subtle.importKey(
     'raw',
     stringToArrayBuffer(password),
@@ -38,13 +64,16 @@ export const deriveKeyFromPassword = async (
   const derivedKey = await crypto.subtle.deriveKey(
     {
       name: 'PBKDF2',
-      salt,
-      iterations: 100000,
-      hash: 'SHA-256'
+      hash: 'SHA-256',
+      salt: salt,
+      iterations: 100000
     },
     baseKey,
-    { name: 'AES-GCM', length: 256 },
-    true,
+    {
+      name: 'AES-GCM',
+      length: 256
+    },
+    false,
     ['wrapKey', 'unwrapKey']
   )
 
@@ -74,10 +103,10 @@ export const createProtectedKeyPair = async (
   )
 
   return {
-    publicKey: arrayBufferToArray(exportedPublicKey),
-    privateKey: arrayBufferToArray(wrappedPrivateKey),
-    iv: arrayBufferToArray(iv),
-    salt: arrayBufferToArray(salt)
+    publicKey: exportedPublicKey,
+    privateKey: wrappedPrivateKey,
+    iv: iv,
+    salt: salt
   }
 }
 
@@ -88,16 +117,15 @@ export const unlockProtectedKeyPair = async (
 ): Promise<CryptoKeyPair> => {
   const derivedKey = await deriveKeyFromPassword(
     password,
-    arrayToArrayBuffer(protectedKeyPair.salt)
+    protectedKeyPair.salt
   )
-
   const unwrappedPrivateKey = await crypto.subtle.unwrapKey(
     'pkcs8',
-    arrayToArrayBuffer(protectedKeyPair.privateKey),
+    protectedKeyPair.privateKey,
     derivedKey,
     {
       name: 'AES-GCM',
-      iv: arrayToArrayBuffer(protectedKeyPair.iv)
+      iv: protectedKeyPair.iv
     },
     {
       name: type,
@@ -111,7 +139,7 @@ export const unlockProtectedKeyPair = async (
     privateKey: unwrappedPrivateKey,
     publicKey: await crypto.subtle.importKey(
       'spki',
-      arrayToArrayBuffer(protectedKeyPair.publicKey),
+      protectedKeyPair.publicKey,
       {
         name: type,
         hash: 'SHA-256'

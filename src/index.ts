@@ -1,10 +1,10 @@
 import {
   stringToArrayBuffer,
   arrayBufferToString,
-  arrayBufferToArray,
   arrayToArrayBuffer,
   createProtectedKeyPair,
-  unlockProtectedKeyPair
+  unlockProtectedKeyPair,
+  deriveBitsFromPassword
 } from './util'
 import {
   EncryptedMessage,
@@ -63,9 +63,9 @@ export const encryptMessage = async (
   )
 
   return {
-    key: arrayBufferToArray(wrappedKey),
-    data: arrayBufferToArray(encryptedData),
-    iv: arrayBufferToArray(iv),
+    key: wrappedKey,
+    data: encryptedData,
+    iv: iv,
     signature: (await signMessage(keychain, message)).signature
   }
 }
@@ -83,7 +83,7 @@ export const decryptMessage = async (
 ): Promise<VerifiedMessage> => {
   const sessionKey = await crypto.subtle.unwrapKey(
     'raw',
-    arrayToArrayBuffer(data.key),
+    data.key,
     keychain.encryptionKeyPair.privateKey,
     {
       name: 'RSA-OAEP'
@@ -94,14 +94,14 @@ export const decryptMessage = async (
     true,
     ['decrypt']
   )
-  const iv = arrayToArrayBuffer(data.iv)
+  const iv = data.iv
   const decryptedData = await crypto.subtle.decrypt(
     {
       name: 'AES-GCM',
       iv
     },
     sessionKey,
-    arrayToArrayBuffer(data.data)
+    data.data
   )
   const message = arrayBufferToString(decryptedData)
 
@@ -111,7 +111,7 @@ export const decryptMessage = async (
       await verifyMessage(
         {
           signature: data.signature,
-          data: arrayBufferToArray(decryptedData)
+          data: decryptedData
         },
         publicSigningKey
       )
@@ -133,8 +133,8 @@ export const signMessage = async (
   )
 
   return {
-    data: arrayBufferToArray(stringToArrayBuffer(message)),
-    signature: arrayBufferToArray(signature)
+    data: stringToArrayBuffer(message),
+    signature: signature
   }
 }
 
@@ -148,18 +148,19 @@ export const verifyMessage = async (
       saltLength: 32
     },
     publicKey,
-    arrayToArrayBuffer(message.signature),
-    arrayToArrayBuffer(message.data)
+    message.signature,
+    message.data
   )
   return {
     verified,
-    message: arrayBufferToString(arrayToArrayBuffer(message.data))
+    message: arrayBufferToString(message.data)
   }
 }
 /**
  * Generates a new {@link Keychain} used for encrypting session keys and signing
+ * @param password The password to generate the {@link authenticationToken} with
  */
-export const generateKeychain = async (): Promise<Keychain> => {
+export const generateKeychain = async (password: string): Promise<Keychain> => {
   const encryptionKeyPair = await crypto.subtle.generateKey(
     {
       name: 'RSA-OAEP',
@@ -182,9 +183,14 @@ export const generateKeychain = async (): Promise<Keychain> => {
     ['sign', 'verify']
   )
 
+  const tokenSalt = crypto.getRandomValues(new Uint8Array(16))
+  const authenticationToken = await deriveBitsFromPassword(password, tokenSalt)
+
   return {
     encryptionKeyPair,
-    signingKeyPair
+    signingKeyPair,
+    authenticationToken,
+    tokenSalt
   }
 }
 
@@ -202,7 +208,9 @@ export const createProtectedKeychain = async (
       keychain.encryptionKeyPair,
       password
     ),
-    signing: await createProtectedKeyPair(keychain.signingKeyPair, password)
+    signing: await createProtectedKeyPair(keychain.signingKeyPair, password),
+    authenticationToken: keychain.authenticationToken,
+    tokenSalt: keychain.tokenSalt
   }
 }
 /**
@@ -224,7 +232,9 @@ export const unlockProtectedKeychain = async (
       protectedKeychain.signing,
       password,
       'RSA-PSS'
-    )
+    ),
+    authenticationToken: protectedKeychain.authenticationToken,
+    tokenSalt: protectedKeychain.tokenSalt
   }
 }
 
