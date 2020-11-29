@@ -55,7 +55,8 @@ test('protects and unlocks keychains', async () => {
     await crypto.subtle.exportKey(
       'pkcs8',
       unlockedKeychain.signingKeyPair.privateKey
-    )
+    ),
+    unlockedKeychain.authenticationToken
   ]).toStrictEqual([
     await crypto.subtle.exportKey('spki', keychain.encryptionKeyPair.publicKey),
     await crypto.subtle.exportKey(
@@ -63,7 +64,8 @@ test('protects and unlocks keychains', async () => {
       keychain.encryptionKeyPair.privateKey
     ),
     await crypto.subtle.exportKey('spki', keychain.signingKeyPair.publicKey),
-    await crypto.subtle.exportKey('pkcs8', keychain.signingKeyPair.privateKey)
+    await crypto.subtle.exportKey('pkcs8', keychain.signingKeyPair.privateKey),
+    keychain.authenticationToken
   ])
 }, 10000)
 

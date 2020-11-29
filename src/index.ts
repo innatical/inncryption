@@ -4,7 +4,8 @@ import {
   arrayToArrayBuffer,
   createProtectedKeyPair,
   unlockProtectedKeyPair,
-  deriveBitsFromPassword
+  deriveBitsFromPassword,
+  deriveKeyFromPassword
 } from './util'
 import {
   EncryptedMessage,
@@ -208,7 +209,8 @@ export const createProtectedKeychain = async (
       keychain.encryptionKeyPair,
       password
     ),
-    signing: await createProtectedKeyPair(keychain.signingKeyPair, password)
+    signing: await createProtectedKeyPair(keychain.signingKeyPair, password),
+    tokenSalt: keychain.tokenSalt
   }
 }
 /**
@@ -231,7 +233,10 @@ export const unlockProtectedKeychain = async (
       password,
       'RSA-PSS'
     ),
-    authenticationToken: protectedKeychain.authenticationToken,
+    authenticationToken: await deriveBitsFromPassword(
+      password,
+      protectedKeychain.tokenSalt
+    ),
     tokenSalt: protectedKeychain.tokenSalt
   }
 }

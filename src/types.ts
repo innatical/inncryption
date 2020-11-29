@@ -25,6 +25,7 @@ export interface ProtectedKeyPair {
 export interface ProtectedKeychain {
   encryption: ProtectedKeyPair
   signing: ProtectedKeyPair
+  tokenSalt: Uint8Array
 }
 
 export interface VerifiedMessage {
