@@ -83,6 +83,7 @@
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_util_.html#arraybuffertostring" class="tsd-kind-icon">array<wbr>Buffer<wbr>ToString</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_util_.html#arraytoarraybuffer" class="tsd-kind-icon">array<wbr>ToArray<wbr>Buffer</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_util_.html#createprotectedkeypair" class="tsd-kind-icon">create<wbr>Protected<wbr>Key<wbr>Pair</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_util_.html#derivebitsfrompassword" class="tsd-kind-icon">derive<wbr>Bits<wbr>From<wbr>Password</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_util_.html#derivekeyfrompassword" class="tsd-kind-icon">derive<wbr>Key<wbr>From<wbr>Password</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_util_.html#stringtoarraybuffer" class="tsd-kind-icon">string<wbr>ToArray<wbr>Buffer</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_util_.html#unlockprotectedkeypair" class="tsd-kind-icon">unlock<wbr>Protected<wbr>Key<wbr>Pair</a></li>
@@ -99,7 +100,7 @@
 					<div class="tsd-signature tsd-kind-icon">crypto<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Crypto</span><span class="tsd-signature-symbol"> = process?.versions?.node? require(&#x27;crypto&#x27;).webcrypto: window.crypto</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/innatical/inncryption/blob/6bb3830/src/util.ts#L4">util.ts:4</a></li>
+							<li>Defined in <a href="https://github.com/joelinnatical/inncryption/blob/b205e0a/src/util.ts#L4">util.ts:4</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -116,7 +117,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/innatical/inncryption/blob/6bb3830/src/util.ts#L18">util.ts:18</a></li>
+									<li>Defined in <a href="https://github.com/joelinnatical/inncryption/blob/b205e0a/src/util.ts#L18">util.ts:18</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -139,7 +140,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/innatical/inncryption/blob/6bb3830/src/util.ts#L13">util.ts:13</a></li>
+									<li>Defined in <a href="https://github.com/joelinnatical/inncryption/blob/b205e0a/src/util.ts#L13">util.ts:13</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -162,7 +163,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/innatical/inncryption/blob/6bb3830/src/util.ts#L22">util.ts:22</a></li>
+									<li>Defined in <a href="https://github.com/joelinnatical/inncryption/blob/b205e0a/src/util.ts#L22">util.ts:22</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -185,7 +186,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/innatical/inncryption/blob/6bb3830/src/util.ts#L54">util.ts:54</a></li>
+									<li>Defined in <a href="https://github.com/joelinnatical/inncryption/blob/b205e0a/src/util.ts#L83">util.ts:83</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -202,6 +203,32 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="derivebitsfrompassword" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> derive<wbr>Bits<wbr>From<wbr>Password</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">derive<wbr>Bits<wbr>From<wbr>Password<span class="tsd-signature-symbol">(</span>password<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, salt<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ArrayBuffer</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ArrayBuffer</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/joelinnatical/inncryption/blob/b205e0a/src/util.ts#L26">util.ts:26</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>password: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>salt: <span class="tsd-signature-type">ArrayBuffer</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ArrayBuffer</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
 					<a name="derivekeyfrompassword" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> derive<wbr>Key<wbr>From<wbr>Password</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
@@ -211,7 +238,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/innatical/inncryption/blob/6bb3830/src/util.ts#L26">util.ts:26</a></li>
+									<li>Defined in <a href="https://github.com/joelinnatical/inncryption/blob/b205e0a/src/util.ts#L52">util.ts:52</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -237,7 +264,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/innatical/inncryption/blob/6bb3830/src/util.ts#L8">util.ts:8</a></li>
+									<li>Defined in <a href="https://github.com/joelinnatical/inncryption/blob/b205e0a/src/util.ts#L8">util.ts:8</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -260,7 +287,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/innatical/inncryption/blob/6bb3830/src/util.ts#L84">util.ts:84</a></li>
+									<li>Defined in <a href="https://github.com/joelinnatical/inncryption/blob/b205e0a/src/util.ts#L113">util.ts:113</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -314,6 +341,9 @@
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module">
 						<a href="_util_.html#createprotectedkeypair" class="tsd-kind-icon">create<wbr>Protected<wbr>Key<wbr>Pair</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="_util_.html#derivebitsfrompassword" class="tsd-kind-icon">derive<wbr>Bits<wbr>From<wbr>Password</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module">
 						<a href="_util_.html#derivekeyfrompassword" class="tsd-kind-icon">derive<wbr>Key<wbr>From<wbr>Password</a>

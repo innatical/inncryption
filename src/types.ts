@@ -1,28 +1,31 @@
 export interface SignedMessage {
-  data: number[]
-  signature: number[]
+  data: ArrayBuffer
+  signature: ArrayBuffer
 }
 
 export interface EncryptedMessage extends SignedMessage {
-  key: number[]
-  iv: number[]
+  key: ArrayBuffer
+  iv: ArrayBuffer
 }
 
 export interface Keychain {
   encryptionKeyPair: CryptoKeyPair
   signingKeyPair: CryptoKeyPair
+  authenticationToken: ArrayBuffer
+  tokenSalt: Uint8Array
 }
 
 export interface ProtectedKeyPair {
-  privateKey: number[]
-  publicKey: number[]
-  salt: number[]
-  iv: number[]
+  privateKey: ArrayBuffer
+  publicKey: ArrayBuffer
+  salt: ArrayBuffer
+  iv: ArrayBuffer
 }
 
 export interface ProtectedKeychain {
   encryption: ProtectedKeyPair
   signing: ProtectedKeyPair
+  tokenSalt: Uint8Array
 }
 
 export interface VerifiedMessage {

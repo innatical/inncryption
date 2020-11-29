@@ -1,9 +1,11 @@
 import * as inncrypt from '.'
+import { stringToArrayBuffer } from './util'
 
 test('signs and verifies', async () => {
   const message =
     'Octii is a chat service by Innatical, focusing on simplicity, privacy, and extensibility.'
-  const keychain = await inncrypt.generateKeychain()
+  const password = 'password'
+  const keychain = await inncrypt.generateKeychain(password)
 
   const signedMessage = await inncrypt.signMessage(keychain, message)
 
@@ -24,17 +26,19 @@ test('protects and unlocks keychains', async () => {
     ? require('crypto').webcrypto
     : window.crypto
 
-  const keychain = await inncrypt.generateKeychain()
   const password = 'password'
+  const keychain = await inncrypt.generateKeychain(password)
 
   const protectedKeychain = await inncrypt.createProtectedKeychain(
     keychain,
     password
   )
+
   const unlockedKeychain = await inncrypt.unlockProtectedKeychain(
     protectedKeychain,
     password
   )
+
   expect([
     await crypto.subtle.exportKey(
       'spki',
@@ -51,7 +55,8 @@ test('protects and unlocks keychains', async () => {
     await crypto.subtle.exportKey(
       'pkcs8',
       unlockedKeychain.signingKeyPair.privateKey
-    )
+    ),
+    unlockedKeychain.authenticationToken
   ]).toStrictEqual([
     await crypto.subtle.exportKey('spki', keychain.encryptionKeyPair.publicKey),
     await crypto.subtle.exportKey(
@@ -59,15 +64,17 @@ test('protects and unlocks keychains', async () => {
       keychain.encryptionKeyPair.privateKey
     ),
     await crypto.subtle.exportKey('spki', keychain.signingKeyPair.publicKey),
-    await crypto.subtle.exportKey('pkcs8', keychain.signingKeyPair.privateKey)
+    await crypto.subtle.exportKey('pkcs8', keychain.signingKeyPair.privateKey),
+    keychain.authenticationToken
   ])
 }, 10000)
 
 test('encrypts and decrypts', async () => {
   const message =
     'Octii is a chat service by Innatical, focusing on simplicity, privacy, and extensibility.'
-  const sender = await inncrypt.generateKeychain()
-  const recipient = await inncrypt.generateKeychain()
+  const password = 'password'
+  const sender = await inncrypt.generateKeychain(password)
+  const recipient = await inncrypt.generateKeychain(password)
 
   const encryptedMessage = await inncrypt.encryptMessage(
     sender,
@@ -85,3 +92,32 @@ test('encrypts and decrypts', async () => {
     message
   })
 }, 10000)
+
+test('generates authenticationToken', async () => {
+  // Required for Node.js support
+  const crypto: Crypto = process?.versions?.node
+    ? require('crypto').webcrypto
+    : window.crypto
+  const password = 'password'
+  const keychain = await inncrypt.generateKeychain(password)
+  const baseKey = await crypto.subtle.importKey(
+    'raw',
+    stringToArrayBuffer(password),
+    { name: 'PBKDF2' },
+    false,
+    ['deriveBits']
+  )
+
+  expect(keychain.authenticationToken).toStrictEqual(
+    await crypto.subtle.deriveBits(
+      {
+        name: 'PBKDF2',
+        hash: 'SHA-256',
+        salt: keychain.tokenSalt,
+        iterations: 100000
+      },
+      baseKey,
+      256
+    )
+  )
+})
