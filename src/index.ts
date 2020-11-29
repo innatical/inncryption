@@ -208,9 +208,7 @@ export const createProtectedKeychain = async (
       keychain.encryptionKeyPair,
       password
     ),
-    signing: await createProtectedKeyPair(keychain.signingKeyPair, password),
-    authenticationToken: keychain.authenticationToken,
-    tokenSalt: keychain.tokenSalt
+    signing: await createProtectedKeyPair(keychain.signingKeyPair, password)
   }
 }
 /**
