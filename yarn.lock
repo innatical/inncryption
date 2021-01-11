@@ -2460,6 +2460,13 @@ lodash@^4.17.19, lodash@^4.17.20:
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.20.tgz#b44a9b6297bcb698f1c51a3545a2b3b368d59c52"
   integrity sha512-PlhdFcillOINfeV7Ni6oF1TAEayyZBoZ8bcshTHqOYJYlrqzRK5hagpagky5o4HfCzzd1TRkXPMFq6cKk9rGmA==
 
+lru-cache@^5.1.1:
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-5.1.1.tgz#1da27e6710271947695daf6848e847f01d84b920"
+  integrity sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==
+  dependencies:
+    yallist "^3.0.2"
+
 lru-cache@^6.0.0:
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-6.0.0.tgz#6d6fe6570ebd96aaf90fcad1dafa3b2566db3a94"
@@ -3575,15 +3582,15 @@ typedarray-to-buffer@^3.1.5:
   dependencies:
     is-typedarray "^1.0.0"
 
-typedoc-default-themes@0.12.0:
-  version "0.12.0"
-  resolved "https://registry.yarnpkg.com/typedoc-default-themes/-/typedoc-default-themes-0.12.0.tgz#42451948e55a148c1350eb2aa68829be5c2b06b3"
-  integrity sha512-0hHBxwmfxE0rkIslOiO39fJyYwaScQEhUIxcpqx3uS1BL3zhFW5oQfUaPx2cv2XLL/GXhYFxhdFLoVmNptbxEQ==
+typedoc-default-themes@0.12.1:
+  version "0.12.1"
+  resolved "https://registry.yarnpkg.com/typedoc-default-themes/-/typedoc-default-themes-0.12.1.tgz#6c4a759f9dc365b4021579587b3773deb6fb6eeb"
+  integrity sha512-6PEvV+/kWAJeUwEtrKgIsZQSbybW5DGCr6s2mMjHsDplpgN8iBHI52UbA+2C+c2TMCxBNMK9TMS6pdeIdwsLSw==
 
 typedoc@^0.20.1:
-  version "0.20.1"
-  resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.20.1.tgz#3cdf4015ed8beedcd83c0714001f2a7da72a3b5e"
-  integrity sha512-XQ4rFNrVTxrP3CtHszKrXkAVF2OUQtXWj480wQKRNXesM8DWw4zlTKDul2q3oKPKusvSx+hU/zzFa9pCU+6Pjw==
+  version "0.20.14"
+  resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.20.14.tgz#894ff71841a4abbe8f46cf52f3cc96c9d68328dc"
+  integrity sha512-9bsZp5/qkl+gDSv9DRvHbfbY8Sr0tD8fKx7hNIvcluxeAFzBCEo9o0qDCdLUZw+/axbfd9TaqHvSuCVRu+YH6Q==
   dependencies:
     colors "^1.4.0"
     fs-extra "^9.0.1"
@@ -3595,7 +3602,7 @@ typedoc@^0.20.1:
     progress "^2.0.3"
     shelljs "^0.8.4"
     shiki "^0.2.7"
-    typedoc-default-themes "0.12.0"
+    typedoc-default-themes "0.12.1"
 
 typescript@^4.0.5:
   version "4.0.5"
@@ -3812,6 +3819,11 @@ y18n@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/y18n/-/y18n-4.0.0.tgz#95ef94f85ecc81d007c264e190a120f0a3c8566b"
   integrity sha512-r9S/ZyXu/Xu9q1tYlpsLIsa3EeLXXk0VwlxqTcFRfg9EhMW+17kbt9G0NrgCmhGb5vT2hyhJZLfDGx+7+5Uj/w==
+
+yallist@^3.0.2:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/yallist/-/yallist-3.1.1.tgz#dbb7daf9bfd8bac9ab45ebf602b8cbad0d5d08fd"
+  integrity sha512-a4UGQaWPH59mOXUYnAG2ewncQS4i4F43Tv3JoAM+s2VDAmS9NsK8GpDMLrCHPksFT7h3K6TOoUNn2pb7RoXx4g==
 
 yallist@^4.0.0:
   version "4.0.0"
