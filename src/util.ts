@@ -1,4 +1,4 @@
-import { ProtectedKeyPair } from './types'
+import { ExportedProtectedKeyPair, ProtectedKeyPair } from './types'
 
 // Required for Node.js support
 let crypto: Crypto = process?.versions?.node
@@ -150,4 +150,26 @@ export const unlockProtectedKeyPair = async (
   }
 
   return keyPair
+}
+
+export const exportProtectedKeyPair = (
+  protectedKeyPair: ProtectedKeyPair
+): ExportedProtectedKeyPair => {
+  return {
+    privateKey: arrayBufferToArray(protectedKeyPair.privateKey),
+    publicKey: arrayBufferToArray(protectedKeyPair.publicKey),
+    salt: arrayBufferToArray(protectedKeyPair.salt),
+    iv: arrayBufferToArray(protectedKeyPair.iv)
+  }
+}
+
+export const importProtectedKeyPair = (
+  exportedProtectedKeyPair: ExportedProtectedKeyPair
+): ProtectedKeyPair => {
+  return {
+    privateKey: arrayToArrayBuffer(exportedProtectedKeyPair.privateKey),
+    publicKey: arrayToArrayBuffer(exportedProtectedKeyPair.publicKey),
+    salt: arrayToArrayBuffer(exportedProtectedKeyPair.salt),
+    iv: arrayToArrayBuffer(exportedProtectedKeyPair.iv)
+  }
 }
