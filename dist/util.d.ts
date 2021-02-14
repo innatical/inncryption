@@ -1,0 +1,11 @@
+import { ExportedProtectedKeyPair, ProtectedKeyPair } from './types';
+export declare const stringToArrayBuffer: (str: string) => Uint8Array;
+export declare const arrayBufferToString: (arrayBuffer: ArrayBuffer) => string;
+export declare const arrayBufferToArray: (arrayBuffer: ArrayBuffer) => number[];
+export declare const arrayToArrayBuffer: (array: number[]) => ArrayBufferLike;
+export declare const deriveBitsFromPassword: (password: string, salt: ArrayBuffer) => Promise<ArrayBuffer>;
+export declare const deriveKeyFromPassword: (password: string, salt: ArrayBuffer) => Promise<CryptoKey>;
+export declare const createProtectedKeyPair: (keyPair: CryptoKeyPair, password: string) => Promise<ProtectedKeyPair>;
+export declare const unlockProtectedKeyPair: (protectedKeyPair: ProtectedKeyPair, password: string, type: 'RSA-OAEP' | 'RSA-PSS') => Promise<CryptoKeyPair>;
+export declare const exportProtectedKeyPair: (protectedKeyPair: ProtectedKeyPair) => ExportedProtectedKeyPair;
+export declare const importProtectedKeyPair: (exportedProtectedKeyPair: ExportedProtectedKeyPair) => ProtectedKeyPair;
