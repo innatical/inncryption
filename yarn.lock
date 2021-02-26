@@ -548,9 +548,9 @@
     pretty-format "^26.0.0"
 
 "@types/node@*", "@types/node@^14.14.10":
-  version "14.14.26"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.26.tgz#e40df24c957568f350cca04e63bfb1e1556d1cbf"
-  integrity sha512-skWxepWOs+VArEBWd2S/VR3wUavioIIx9/HzW+UJiIjtwa6+kNXdsOeq7FfxDXf56hIcL0ieo2brwMgBJ1+lhw==
+  version "14.14.30"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.30.tgz#7d5162eec085ba34f8cb9011e9ba12119f76f961"
+  integrity sha512-gUWhy8s45fQp4PqqKecsnOkdW0kt1IaKjgOIR3HPokkzTmQj9ji2wWFID5THu1MKrtO+d4s2lVrlEhXUsPXSvg==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
@@ -3543,9 +3543,9 @@ typedoc-default-themes@^0.12.7:
   integrity sha512-0XAuGEqID+gon1+fhi4LycOEFM+5Mvm2PjwaiVZNAzU7pn3G2DEpsoXnFOPlLDnHY6ZW0BY0nO7ur9fHOFkBLQ==
 
 typedoc@^0.20.1:
-  version "0.20.24"
-  resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.20.24.tgz#9dd1cb32e44823a5ebbeb54c9b84af85286c5941"
-  integrity sha512-TadOYtcw8agrk7WTZlXUcct4jLZZcGcYe3xbmARkI+rBpXI6Mw+0P8oUo13+9oFreQvK5zZgMem4YEi7lCXLIw==
+  version "0.20.25"
+  resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.20.25.tgz#f84b0b00dff545e945b63e2d5fff670fc9e86878"
+  integrity sha512-ZQZnjJPrt0rjp216gp6FQC1QC4ojcoKikhfOJ/51CqaJunVDilRLlIO5tCGWj1tzlYYT9eOGhJv7MF3t7rxSmw==
   dependencies:
     colors "^1.4.0"
     fs-extra "^9.1.0"
