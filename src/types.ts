@@ -32,3 +32,16 @@ export interface VerifiedMessage {
   verified: boolean
   message: string
 }
+
+export interface ExportedProtectedKeyPair {
+  privateKey: number[]
+  publicKey: number[]
+  salt: number[]
+  iv: number[]
+}
+
+export interface ExportedProtectedKeychain {
+  encryption: ExportedProtectedKeyPair
+  signing: ExportedProtectedKeyPair
+  tokenSalt: number[]
+}

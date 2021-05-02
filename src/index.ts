@@ -5,10 +5,13 @@ import {
   createProtectedKeyPair,
   unlockProtectedKeyPair,
   deriveBitsFromPassword,
-  deriveKeyFromPassword
+  exportProtectedKeyPair,
+  arrayBufferToArray,
+  importProtectedKeyPair
 } from './util'
 import {
   EncryptedMessage,
+  ExportedProtectedKeychain,
   Keychain,
   ProtectedKeychain,
   SignedMessage,
@@ -260,4 +263,34 @@ export const importPublicKey = async (
     true,
     type === 'encryption' ? ['wrapKey'] : ['verify']
   )
+}
+
+/**
+ * Exports a protectedKeychain
+ * @param protectedKeychain The protectedKeychain to export
+ * @returns The exported protectedKeychain
+ */
+export const exportProtectedKeychain = (
+  protectedKeychain: ProtectedKeychain
+): ExportedProtectedKeychain => {
+  return {
+    encryption: exportProtectedKeyPair(protectedKeychain.encryption),
+    signing: exportProtectedKeyPair(protectedKeychain.signing),
+    tokenSalt: arrayBufferToArray(protectedKeychain.tokenSalt)
+  }
+}
+
+/**
+ * Imports a protectedKeychain
+ * @param exportedProtectedKeychain The exportedProtectedKeychain to import
+ * @returns The imported protectedKeychain
+ */
+export const importProtectedKeychain = (
+  exportedProtectedKeychain: ExportedProtectedKeychain
+): ProtectedKeychain => {
+  return {
+    encryption: importProtectedKeyPair(exportedProtectedKeychain.encryption),
+    signing: importProtectedKeyPair(exportedProtectedKeychain.signing),
+    tokenSalt: new Uint8Array(exportedProtectedKeychain.tokenSalt)
+  }
 }

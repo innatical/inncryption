@@ -1,5 +1,5 @@
 import * as inncrypt from '.'
-import { stringToArrayBuffer } from './util'
+import { arrayToArrayBuffer, stringToArrayBuffer } from './util'
 
 test('signs and verifies', async () => {
   const message =
@@ -120,4 +120,49 @@ test('generates authenticationToken', async () => {
       256
     )
   )
+})
+
+test('exports and imports', async () => {
+  // Required for Node.js support
+  const crypto: Crypto = process?.versions?.node
+    ? require('crypto').webcrypto
+    : window.crypto
+
+  const password = 'password'
+  const keychain = await inncrypt.generateKeychain(password)
+
+  const protectedKeychain = await inncrypt.createProtectedKeychain(
+    keychain,
+    password
+  )
+
+  const exportedProtectedKeychain = inncrypt.exportProtectedKeychain(
+    protectedKeychain
+  )
+
+  const importedProtectedKeychain = inncrypt.importProtectedKeychain(
+    exportedProtectedKeychain
+  )
+
+  expect([
+    arrayToArrayBuffer(exportedProtectedKeychain.encryption.publicKey),
+    arrayToArrayBuffer(exportedProtectedKeychain.encryption.privateKey),
+    arrayToArrayBuffer(exportedProtectedKeychain.encryption.salt),
+    arrayToArrayBuffer(exportedProtectedKeychain.encryption.iv),
+    arrayToArrayBuffer(exportedProtectedKeychain.signing.publicKey),
+    arrayToArrayBuffer(exportedProtectedKeychain.signing.privateKey),
+    arrayToArrayBuffer(exportedProtectedKeychain.signing.salt),
+    arrayToArrayBuffer(exportedProtectedKeychain.signing.iv),
+    new Uint8Array(exportedProtectedKeychain.tokenSalt)
+  ]).toStrictEqual([
+    importedProtectedKeychain.encryption.publicKey,
+    importedProtectedKeychain.encryption.privateKey,
+    importedProtectedKeychain.encryption.salt,
+    importedProtectedKeychain.encryption.iv,
+    importedProtectedKeychain.signing.publicKey,
+    importedProtectedKeychain.signing.privateKey,
+    importedProtectedKeychain.signing.salt,
+    importedProtectedKeychain.signing.iv,
+    importedProtectedKeychain.tokenSalt
+  ])
 })
