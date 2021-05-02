@@ -265,6 +265,11 @@ export const importPublicKey = async (
   )
 }
 
+/**
+ * Exports a protectedKeychain
+ * @param protectedKeychain The protectedKeychain to export
+ * @returns The exported protectedKeychain
+ */
 export const exportProtectedKeychain = (
   protectedKeychain: ProtectedKeychain
 ): ExportedProtectedKeychain => {
@@ -275,6 +280,11 @@ export const exportProtectedKeychain = (
   }
 }
 
+/**
+ * Imports a protectedKeychain
+ * @param exportedProtectedKeychain The exportedProtectedKeychain to import
+ * @returns The imported protectedKeychain
+ */
 export const importProtectedKeychain = (
   exportedProtectedKeychain: ExportedProtectedKeychain
 ): ProtectedKeychain => {
