@@ -294,3 +294,16 @@ export const importProtectedKeychain = (
     tokenSalt: new Uint8Array(exportedProtectedKeychain.tokenSalt)
   }
 }
+
+export const updateKeychainPassword = async (
+  keychain: Keychain,
+  password: string
+): Promise<Keychain> => {
+  const tokenSalt = crypto.getRandomValues(new Uint8Array(16))
+  const authenticationToken = await deriveBitsFromPassword(password, tokenSalt)
+  return {
+    ...keychain,
+    tokenSalt,
+    authenticationToken
+  }
+}
