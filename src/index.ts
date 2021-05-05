@@ -188,7 +188,9 @@ export const generateKeychain = async (password: string): Promise<Keychain> => {
   )
 
   const tokenSalt = crypto.getRandomValues(new Uint8Array(16))
-  const authenticationToken = await deriveBitsFromPassword(password, tokenSalt)
+  const authenticationToken = arrayBufferToString(
+    await deriveBitsFromPassword(password, tokenSalt)
+  )
 
   return {
     encryptionKeyPair,
@@ -236,9 +238,8 @@ export const unlockProtectedKeychain = async (
       password,
       'RSA-PSS'
     ),
-    authenticationToken: await deriveBitsFromPassword(
-      password,
-      protectedKeychain.tokenSalt
+    authenticationToken: arrayBufferToString(
+      await deriveBitsFromPassword(password, protectedKeychain.tokenSalt)
     ),
     tokenSalt: protectedKeychain.tokenSalt
   }
@@ -300,7 +301,9 @@ export const updateKeychainPassword = async (
   password: string
 ): Promise<Keychain> => {
   const tokenSalt = crypto.getRandomValues(new Uint8Array(16))
-  const authenticationToken = await deriveBitsFromPassword(password, tokenSalt)
+  const authenticationToken = arrayBufferToString(
+    await deriveBitsFromPassword(password, tokenSalt)
+  )
   return {
     ...keychain,
     tokenSalt,

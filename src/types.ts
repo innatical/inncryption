@@ -11,7 +11,7 @@ export interface EncryptedMessage extends SignedMessage {
 export interface Keychain {
   encryptionKeyPair: CryptoKeyPair
   signingKeyPair: CryptoKeyPair
-  authenticationToken: ArrayBuffer
+  authenticationToken: string
   tokenSalt: Uint8Array
 }
 
