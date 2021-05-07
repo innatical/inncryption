@@ -11,7 +11,10 @@ import {
 } from './util'
 import {
   EncryptedMessage,
+  ExportedEncryptedMessage,
   ExportedProtectedKeychain,
+  ExportedSigneddMessage,
+  ExportedSignedMessage,
   Keychain,
   ProtectedKeychain,
   SignedMessage,
@@ -264,6 +267,66 @@ export const importPublicKey = async (
     true,
     type === 'encryption' ? ['wrapKey'] : ['verify']
   )
+}
+
+/**
+ * Exports a signedMessage
+ * @param signedMessage The signedMessage to export
+ * @returns The exported signedMessage
+ */
+export const exportSignedMessage = (
+  signedMessage: SignedMessage
+): ExportedSignedMessage => {
+  return {
+    data: arrayBufferToArray(signedMessage.data),
+    signature: arrayBufferToArray(signedMessage.signature)
+  }
+}
+
+/**
+ * Imports an exportedSignedMessage
+ * @param exportedSignedMessage The exportedSignedMessage to import
+ * @returns The imported signedMessage
+ */
+export const importSignedMessage = (
+  exportedSignedMessage: ExportedSignedMessage
+): SignedMessage => {
+  return {
+    data: arrayToArrayBuffer(exportedSignedMessage.data),
+    signature: arrayToArrayBuffer(exportedSignedMessage.signature)
+  }
+}
+
+/**
+ * Exports an encryptedMessage
+ * @param encryptedMessage The encryptedMessage to export
+ * @returns The exported encryptedMessage
+ */
+export const exportEncryptedMessage = (
+  encryptedMessage: EncryptedMessage
+): ExportedEncryptedMessage => {
+  return {
+    data: arrayBufferToArray(encryptedMessage.data),
+    signature: arrayBufferToArray(encryptedMessage.signature),
+    key: arrayBufferToArray(encryptedMessage.key),
+    iv: arrayBufferToArray(encryptedMessage.iv)
+  }
+}
+
+/**
+ * Imports a exportedEncryptedMessage
+ * @param exportedEncryptedMessage The exportedEncryptedMessage to import
+ * @returns The imported exportedEncryptedMessage
+ */
+export const importEncryptedMessage = (
+  exportedEncryptedMessage: ExportedEncryptedMessage
+): EncryptedMessage => {
+  return {
+    data: arrayToArrayBuffer(exportedEncryptedMessage.data),
+    signature: arrayToArrayBuffer(exportedEncryptedMessage.signature),
+    key: arrayToArrayBuffer(exportedEncryptedMessage.key),
+    iv: arrayToArrayBuffer(exportedEncryptedMessage.iv)
+  }
 }
 
 /**

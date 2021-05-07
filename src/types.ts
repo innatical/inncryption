@@ -3,9 +3,18 @@ export interface SignedMessage {
   signature: ArrayBuffer
 }
 
+export interface ExportedSignedMessage {
+  data: number[]
+  signature: number[]
+}
 export interface EncryptedMessage extends SignedMessage {
   key: ArrayBuffer
   iv: ArrayBuffer
+}
+
+export interface ExportedEncryptedMessage extends ExportedSignedMessage {
+  key: number[]
+  iv: number[]
 }
 
 export interface Keychain {
