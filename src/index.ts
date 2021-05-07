@@ -13,7 +13,6 @@ import {
   EncryptedMessage,
   ExportedEncryptedMessage,
   ExportedProtectedKeychain,
-  ExportedSigneddMessage,
   ExportedSignedMessage,
   Keychain,
   ProtectedKeychain,
