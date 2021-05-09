@@ -22,7 +22,7 @@ test('signs and verifies', async () => {
 
 test('protects and unlocks keychains', async () => {
   // Required for Node.js support
-  const crypto: Crypto = process?.versions?.node
+  const crypto: Crypto = globalThis.process?.versions?.node
     ? require('crypto').webcrypto
     : window.crypto
 
@@ -95,7 +95,7 @@ test('encrypts and decrypts', async () => {
 
 test('generates authenticationToken', async () => {
   // Required for Node.js support
-  const crypto: Crypto = process?.versions?.node
+  const crypto: Crypto = globalThis.process?.versions?.node
     ? require('crypto').webcrypto
     : window.crypto
   const password = 'password'
@@ -124,7 +124,7 @@ test('generates authenticationToken', async () => {
 
 test('exports and imports', async () => {
   // Required for Node.js support
-  const crypto: Crypto = process?.versions?.node
+  const crypto: Crypto = globalThis.process?.versions?.node
     ? require('crypto').webcrypto
     : window.crypto
 

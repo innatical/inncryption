@@ -1,7 +1,7 @@
 import { ExportedProtectedKeyPair, ProtectedKeyPair } from './types'
 
 // Required for Node.js support
-let crypto: Crypto = process?.versions?.node
+let crypto: Crypto = globalThis.process?.versions?.node
   ? require('crypto').webcrypto
   : window.crypto
 
