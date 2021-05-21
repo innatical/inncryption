@@ -21,6 +21,7 @@ export interface Keychain {
   encryptionKeyPair: CryptoKeyPair
   signingKeyPair: CryptoKeyPair
   authenticationToken: string
+  authenticationTokenLegacy: string
   tokenSalt: Uint8Array
 }
 
