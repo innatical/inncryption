@@ -1,5 +1,5 @@
 import * as inncrypt from '.'
-import { arrayToArrayBuffer, stringToArrayBuffer } from './util'
+import { arrayBufferToBase64, arrayBufferToString, arrayToArrayBuffer, stringToArrayBuffer } from './util'
 
 test('signs and verifies', async () => {
   const message =
@@ -107,9 +107,8 @@ test('generates authenticationToken', async () => {
     false,
     ['deriveBits']
   )
-
   expect(keychain.authenticationToken).toStrictEqual(
-    await crypto.subtle.deriveBits(
+    await arrayBufferToBase64(await crypto.subtle.deriveBits(
       {
         name: 'PBKDF2',
         hash: 'SHA-256',
@@ -118,8 +117,7 @@ test('generates authenticationToken', async () => {
       },
       baseKey,
       256
-    )
-  )
+    )))
 })
 
 test('exports and imports', async () => {

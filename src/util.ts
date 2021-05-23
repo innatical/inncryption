@@ -10,6 +10,11 @@ export const stringToArrayBuffer = (str: string) => {
   return encoder.encode(str)
 }
 
+export const arrayBufferToBase64 = (arrayBuffer: ArrayBuffer) => {
+  const chars = arrayBufferToArray(arrayBuffer).map((ch) => String.fromCharCode(ch)).join('')
+  return Buffer.from(chars, 'binary').toString('base64')
+}
+
 export const arrayBufferToString = (arrayBuffer: ArrayBuffer) => {
   const decoder = new TextDecoder()
   return decoder.decode(arrayBuffer)
