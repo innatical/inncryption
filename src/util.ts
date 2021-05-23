@@ -11,7 +11,7 @@ export const stringToArrayBuffer = (str: string) => {
 }
 
 export const arrayBufferToBase64 = (arrayBuffer: ArrayBuffer) => {
-  let chars = arrayBufferToArray(arrayBuffer).map((ch) => String.fromCharCode(ch)).join('')
+  const chars = arrayBufferToArray(arrayBuffer).map((ch) => String.fromCharCode(ch)).join('')
   return Buffer.from(chars, 'binary').toString('base64')
 }
 
