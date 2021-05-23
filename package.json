@@ -25,7 +25,5 @@
   "files": [
     "dist/"
   ],
-  "dependencies": {
-    "btoa": "^1.2.1"
-  }
+  "dependencies": {}
 }
