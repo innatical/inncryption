@@ -12,7 +12,7 @@ test('signs and verifies', async () => {
   expect(
     await inncrypt.verifyMessage(
       signedMessage,
-      keychain.signingKeyPair.publicKey
+      keychain.signingKeyPair.publicKey!
     )
   ).toStrictEqual({
     verified: true,
@@ -42,29 +42,29 @@ test('protects and unlocks keychains', async () => {
   expect([
     await crypto.subtle.exportKey(
       'spki',
-      unlockedKeychain.encryptionKeyPair.publicKey
+      unlockedKeychain.encryptionKeyPair.publicKey!
     ),
     await crypto.subtle.exportKey(
       'pkcs8',
-      unlockedKeychain.encryptionKeyPair.privateKey
+      unlockedKeychain.encryptionKeyPair.privateKey!
     ),
     await crypto.subtle.exportKey(
       'spki',
-      unlockedKeychain.signingKeyPair.publicKey
+      unlockedKeychain.signingKeyPair.publicKey!
     ),
     await crypto.subtle.exportKey(
       'pkcs8',
-      unlockedKeychain.signingKeyPair.privateKey
+      unlockedKeychain.signingKeyPair.privateKey!
     ),
     unlockedKeychain.authenticationToken
   ]).toStrictEqual([
-    await crypto.subtle.exportKey('spki', keychain.encryptionKeyPair.publicKey),
+    await crypto.subtle.exportKey('spki', keychain.encryptionKeyPair.publicKey!),
     await crypto.subtle.exportKey(
       'pkcs8',
-      keychain.encryptionKeyPair.privateKey
+      keychain.encryptionKeyPair.privateKey!
     ),
-    await crypto.subtle.exportKey('spki', keychain.signingKeyPair.publicKey),
-    await crypto.subtle.exportKey('pkcs8', keychain.signingKeyPair.privateKey),
+    await crypto.subtle.exportKey('spki', keychain.signingKeyPair.publicKey!),
+    await crypto.subtle.exportKey('pkcs8', keychain.signingKeyPair.privateKey!),
     keychain.authenticationToken
   ])
 }, 10000)
@@ -78,12 +78,12 @@ test('encrypts and decrypts', async () => {
 
   const encryptedMessage = await inncrypt.encryptMessage(
     sender,
-    recipient.encryptionKeyPair.publicKey,
+    recipient.encryptionKeyPair.publicKey!,
     message
   )
   const decryptedMessage = await inncrypt.decryptMessage(
     recipient,
-    sender.signingKeyPair.publicKey,
+    sender.signingKeyPair.publicKey!,
     encryptedMessage
   )
 
@@ -108,7 +108,7 @@ test('generates authenticationToken', async () => {
     ['deriveBits']
   )
   expect(keychain.authenticationToken).toStrictEqual(
-    await arrayBufferToBase64(await crypto.subtle.deriveBits(
+    arrayBufferToBase64(await crypto.subtle.deriveBits(
       {
         name: 'PBKDF2',
         hash: 'SHA-256',

@@ -5,14 +5,15 @@ let crypto: Crypto = globalThis.process?.versions?.node
   ? require('crypto').webcrypto
   : window.crypto
 
-export const stringToArrayBuffer = (str: string) => {
-  const encoder = new TextEncoder()
-  return encoder.encode(str)
-}
-
+  
 export const arrayBufferToBase64 = (arrayBuffer: ArrayBuffer) => {
   const chars = arrayBufferToArray(arrayBuffer).map((ch) => String.fromCharCode(ch)).join('')
   return Buffer.from(chars, 'binary').toString('base64')
+}
+  
+export const stringToArrayBuffer = (str: string) => {
+  const encoder = new TextEncoder()
+  return encoder.encode(str)
 }
 
 export const arrayBufferToString = (arrayBuffer: ArrayBuffer) => {
@@ -95,7 +96,7 @@ export const createProtectedKeyPair = async (
   const iv = crypto.getRandomValues(new Uint8Array(12))
   const wrappedPrivateKey = await crypto.subtle.wrapKey(
     'pkcs8',
-    keyPair.privateKey,
+    keyPair.privateKey!,
     derivedKey,
     {
       name: 'AES-GCM',
@@ -104,7 +105,7 @@ export const createProtectedKeyPair = async (
   )
   const exportedPublicKey = await crypto.subtle.exportKey(
     'spki',
-    keyPair.publicKey
+    keyPair.publicKey!
   )
 
   return {

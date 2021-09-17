@@ -1,6 +1,6 @@
 {
   "name": "@innatical/inncryption",
-  "version": "0.0.14",
+  "version": "1.0.0",
   "description": "An awesome crypto library",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -14,12 +14,12 @@
     "test": "jest"
   },
   "devDependencies": {
-    "@types/jest": "^26.0.15",
-    "@types/node": "^15.3.1",
-    "jest": "^26.6.1",
-    "ts-jest": "^26.5.6",
-    "ts-node": "^9.0.0",
-    "typedoc": "^0.20.1",
+    "@types/jest": "^27.0.1",
+    "@types/node": "^16.9.2",
+    "jest": "^27.2.0",
+    "ts-jest": "^27.0.5",
+    "ts-node": "^10.2.1",
+    "typedoc": "^0.22.3",
     "typescript": "^4.0.5"
   },
   "files": [

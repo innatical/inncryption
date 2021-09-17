@@ -91,7 +91,7 @@ export const decryptMessage = async (
   const sessionKey = await crypto.subtle.unwrapKey(
     'raw',
     data.key,
-    keychain.encryptionKeyPair.privateKey,
+    keychain.encryptionKeyPair.privateKey!,
     {
       name: 'RSA-OAEP'
     },
@@ -135,7 +135,7 @@ export const signMessage = async (
       name: 'RSA-PSS',
       saltLength: 32
     },
-    keychain.signingKeyPair.privateKey,
+    keychain.signingKeyPair.privateKey!,
     stringToArrayBuffer(message)
   )
 
@@ -194,15 +194,11 @@ export const generateKeychain = async (password: string): Promise<Keychain> => {
   const authenticationToken = arrayBufferToBase64(
     await deriveBitsFromPassword(password, tokenSalt)
   )
-  const authenticationTokenLegacy = arrayBufferToString(
-    await deriveBitsFromPassword(password, tokenSalt)
-  )
 
   return {
     encryptionKeyPair,
     signingKeyPair,
     authenticationToken,
-    authenticationTokenLegacy,
     tokenSalt
   }
 }
@@ -246,9 +242,6 @@ export const unlockProtectedKeychain = async (
       'RSA-PSS'
     ),
     authenticationToken: arrayBufferToBase64(
-      await deriveBitsFromPassword(password, protectedKeychain.tokenSalt)
-    ),
-    authenticationTokenLegacy: arrayBufferToString(
       await deriveBitsFromPassword(password, protectedKeychain.tokenSalt)
     ),
     tokenSalt: protectedKeychain.tokenSalt
@@ -374,13 +367,9 @@ export const updateKeychainPassword = async (
   const authenticationToken = arrayBufferToBase64(
     await deriveBitsFromPassword(password, tokenSalt)
   )
-  const authenticationTokenLegacy = arrayBufferToString(
-    await deriveBitsFromPassword(password, tokenSalt)
-  )
   return {
     ...keychain,
     tokenSalt,
     authenticationToken,
-    authenticationTokenLegacy
   }
 }
