@@ -22,9 +22,9 @@ import {
 } from './types'
 
 // Required for Node.js support
-let crypto: Crypto = globalThis.process?.versions?.node
+let crypto: Crypto = !globalThis?.crypto?.subtle
   ? require('crypto').webcrypto
-  : window.crypto
+  : globalThis.crypto.subtle
 
 export { EncryptedMessage, ProtectedKeychain }
 
@@ -370,6 +370,6 @@ export const updateKeychainPassword = async (
   return {
     ...keychain,
     tokenSalt,
-    authenticationToken,
+    authenticationToken
   }
 }
