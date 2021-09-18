@@ -29,7 +29,7 @@ test('protects and unlocks keychains', async () => {
   // Required for Node.js support
   let crypto: Crypto = !globalThis?.crypto?.subtle
     ? require('crypto').webcrypto
-    : globalThis.crypto.subtle
+    : globalThis.crypto
 
   const password = 'password'
   const keychain = await inncrypt.generateKeychain(password)
@@ -105,7 +105,8 @@ test('generates authenticationToken', async () => {
   // Required for Node.js support
   let crypto: Crypto = !globalThis?.crypto?.subtle
     ? require('crypto').webcrypto
-    : globalThis.crypto.subtle
+    : globalThis.crypto
+
   const password = 'password'
   const keychain = await inncrypt.generateKeychain(password)
   const baseKey = await crypto.subtle.importKey(
@@ -132,11 +133,6 @@ test('generates authenticationToken', async () => {
 })
 
 test('exports and imports', async () => {
-  // Required for Node.js support
-  const crypto: Crypto = globalThis.process?.versions?.node
-    ? require('crypto').webcrypto
-    : window.crypto
-
   const password = 'password'
   const keychain = await inncrypt.generateKeychain(password)
 

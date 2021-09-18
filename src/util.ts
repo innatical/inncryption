@@ -3,7 +3,7 @@ import { ExportedProtectedKeyPair, ProtectedKeyPair } from './types'
 // Required for Node.js support
 let crypto: Crypto = !globalThis?.crypto?.subtle
   ? require('crypto').webcrypto
-  : globalThis.crypto.subtle
+  : globalThis.crypto
 
 export const arrayBufferToBase64 = (arrayBuffer: ArrayBuffer) => {
   const chars = arrayBufferToArray(arrayBuffer)
