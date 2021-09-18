@@ -1,10 +1,5 @@
 import * as inncrypt from '.'
-import {
-  arrayBufferToBase64,
-  arrayToArrayBuffer,
-  stringToArrayBuffer
-} from './util'
-import crypto from 'isomorphic-webcrypto'
+import { arrayBufferToBase64, arrayBufferToString, arrayToArrayBuffer, stringToArrayBuffer } from './util'
 
 test('signs and verifies', async () => {
   const message =
@@ -26,6 +21,11 @@ test('signs and verifies', async () => {
 }, 10000)
 
 test('protects and unlocks keychains', async () => {
+  // Required for Node.js support
+  const crypto: Crypto = globalThis.process?.versions?.node
+    ? require('crypto').webcrypto
+    : window.crypto
+
   const password = 'password'
   const keychain = await inncrypt.generateKeychain(password)
 
@@ -58,10 +58,7 @@ test('protects and unlocks keychains', async () => {
     ),
     unlockedKeychain.authenticationToken
   ]).toStrictEqual([
-    await crypto.subtle.exportKey(
-      'spki',
-      keychain.encryptionKeyPair.publicKey!
-    ),
+    await crypto.subtle.exportKey('spki', keychain.encryptionKeyPair.publicKey!),
     await crypto.subtle.exportKey(
       'pkcs8',
       keychain.encryptionKeyPair.privateKey!
@@ -97,6 +94,10 @@ test('encrypts and decrypts', async () => {
 }, 10000)
 
 test('generates authenticationToken', async () => {
+  // Required for Node.js support
+  const crypto: Crypto = globalThis.process?.versions?.node
+    ? require('crypto').webcrypto
+    : window.crypto
   const password = 'password'
   const keychain = await inncrypt.generateKeychain(password)
   const baseKey = await crypto.subtle.importKey(
@@ -107,22 +108,24 @@ test('generates authenticationToken', async () => {
     ['deriveBits']
   )
   expect(keychain.authenticationToken).toStrictEqual(
-    arrayBufferToBase64(
-      await crypto.subtle.deriveBits(
-        {
-          name: 'PBKDF2',
-          hash: 'SHA-256',
-          salt: keychain.tokenSalt,
-          iterations: 100000
-        },
-        baseKey,
-        256
-      )
-    )
-  )
+    arrayBufferToBase64(await crypto.subtle.deriveBits(
+      {
+        name: 'PBKDF2',
+        hash: 'SHA-256',
+        salt: keychain.tokenSalt,
+        iterations: 100000
+      },
+      baseKey,
+      256
+    )))
 })
 
 test('exports and imports', async () => {
+  // Required for Node.js support
+  const crypto: Crypto = globalThis.process?.versions?.node
+    ? require('crypto').webcrypto
+    : window.crypto
+
   const password = 'password'
   const keychain = await inncrypt.generateKeychain(password)
 
@@ -131,8 +134,9 @@ test('exports and imports', async () => {
     password
   )
 
-  const exportedProtectedKeychain =
-    inncrypt.exportProtectedKeychain(protectedKeychain)
+  const exportedProtectedKeychain = inncrypt.exportProtectedKeychain(
+    protectedKeychain
+  )
 
   const importedProtectedKeychain = inncrypt.importProtectedKeychain(
     exportedProtectedKeychain

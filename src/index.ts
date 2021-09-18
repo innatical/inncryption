@@ -20,7 +20,11 @@ import {
   SignedMessage,
   VerifiedMessage
 } from './types'
-import crypto from 'isomorphic-webcrypto'
+
+// Required for Node.js support
+let crypto: Crypto = globalThis.process?.versions?.node
+  ? require('crypto').webcrypto
+  : window.crypto
 
 export { EncryptedMessage, ProtectedKeychain }
 
@@ -366,6 +370,6 @@ export const updateKeychainPassword = async (
   return {
     ...keychain,
     tokenSalt,
-    authenticationToken
+    authenticationToken,
   }
 }
