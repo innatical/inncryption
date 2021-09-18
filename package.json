@@ -25,5 +25,7 @@
   "files": [
     "dist/"
   ],
-  "dependencies": {}
+  "dependencies": {
+    "isomorphic-webcrypto": "^2.3.8"
+  }
 }

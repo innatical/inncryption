@@ -1,16 +1,13 @@
 import { ExportedProtectedKeyPair, ProtectedKeyPair } from './types'
+import crypto from 'isomorphic-webcrypto'
 
-// Required for Node.js support
-let crypto: Crypto = globalThis.process?.versions?.node
-  ? require('crypto').webcrypto
-  : window.crypto
-
-  
 export const arrayBufferToBase64 = (arrayBuffer: ArrayBuffer) => {
-  const chars = arrayBufferToArray(arrayBuffer).map((ch) => String.fromCharCode(ch)).join('')
+  const chars = arrayBufferToArray(arrayBuffer)
+    .map((ch) => String.fromCharCode(ch))
+    .join('')
   return Buffer.from(chars, 'binary').toString('base64')
 }
-  
+
 export const stringToArrayBuffer = (str: string) => {
   const encoder = new TextEncoder()
   return encoder.encode(str)
