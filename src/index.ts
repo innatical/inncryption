@@ -1,375 +1,499 @@
+import crypto from 'isomorphic-webcrypto'
 import {
-  stringToArrayBuffer,
-  arrayBufferToString,
-  arrayToArrayBuffer,
-  createProtectedKeyPair,
-  unlockProtectedKeyPair,
-  deriveBitsFromPassword,
-  exportProtectedKeyPair,
   arrayBufferToArray,
-  importProtectedKeyPair,
-  arrayBufferToBase64
+  arrayBufferToUint8Array,
+  arrayToArrayBuffer,
+  arrayToUint8Array,
+  generateIV,
+  stringToUint8Array,
+  Uint8ArrayToArray,
+  Uint8ArrayToString,
+  generateSalt
 } from './util'
-import {
-  EncryptedMessage,
-  ExportedEncryptedMessage,
-  ExportedProtectedKeychain,
-  ExportedSignedMessage,
-  Keychain,
-  ProtectedKeychain,
-  SignedMessage,
-  VerifiedMessage
-} from './types'
 
-// Required for Node.js support
-let crypto: Crypto = !globalThis?.crypto?.subtle
-  ? require('crypto').webcrypto
-  : globalThis.crypto
-
-export { EncryptedMessage, ProtectedKeychain }
+// Interfaces
 
 /**
- * Encrypts and signs a message
- * @param keychain The sender's keychain
- * @param publicEncryptionKey The recipient's public encryption key
- * @param message The message to encrypt
- * @returns The encrypted and signed message
+ * A message signed with a SignedPair
  */
-export const encryptMessage = async (
-  keychain: Keychain,
-  publicEncryptionKey: CryptoKey,
-  message: string
-): Promise<EncryptedMessage> => {
-  const sessionKey = await crypto.subtle.generateKey(
-    {
-      name: 'AES-GCM',
-      length: 256
-    },
-    true,
-    ['encrypt']
-  )
+export interface SignedMessage {
+  data: string
+  signature: number[]
+}
 
-  const wrappedKey = await crypto.subtle.wrapKey(
-    'raw',
-    sessionKey,
-    publicEncryptionKey,
-    {
-      name: 'RSA-OAEP'
+/**
+ * A message encrypted with a SymmetricalKey
+ */
+export interface EncryptedMessage {
+  data: number[]
+  iv: number[]
+}
+
+/**
+ * A pair of JsonWebKeys
+ */
+export interface JsonWebKeyPair {
+  publicKey: JsonWebKey
+  privateKey: JsonWebKey
+}
+
+/**
+ * A keychain of JsonWebKeyPairs and JsonWebKeys
+ */
+export interface JsonWebKeyChain {
+  personal: JsonWebKey
+  signing: JsonWebKeyPair
+  encryption: JsonWebKeyPair
+}
+
+/**
+ * A keychain of public JsonWebKeys
+ */
+export interface JsonWebKeyPublicChain {
+  signing: JsonWebKey
+  encryption: JsonWebKey
+}
+
+// Classes
+
+/**
+ * A SymmetricKey is used to encrypt data that can be decrypted with the same SymmetricKey for later use
+ */
+export class SymmetricKey {
+  private key: CryptoKey
+
+  constructor(key: CryptoKey) {
+    this.key = key
+  }
+
+  /**
+   * Encrypts a JSON object with this key
+   * @param message The message to encrypt, must be JSON serializable
+   * @returns A message encrypted with this key
+   */
+  async encrypt(message: any): Promise<EncryptedMessage> {
+    const data = JSON.stringify(message)
+    const iv = generateIV()
+
+    const encrypted = await crypto.subtle.encrypt(
+      {
+        name: 'AES-GCM',
+        iv
+      },
+      this.key,
+      stringToUint8Array(data)
+    )
+
+    return {
+      iv: Uint8ArrayToArray(iv),
+      data: arrayBufferToArray(encrypted)
     }
-  )
+  }
 
-  const iv = crypto.getRandomValues(new Uint8Array(12))
+  /**
+   * Decrypts an EncryptedMessage encrypted with this key
+   * @param message The EncryptedMessage to decrypt
+   * @returns The unserialized, unencrypted data
+   */
+  async decrypt(message: EncryptedMessage): Promise<unknown> {
+    const buffer = await crypto.subtle.decrypt(
+      {
+        name: 'AES-GCM',
+        iv: arrayToUint8Array(message.iv)
+      },
+      this.key,
+      arrayToArrayBuffer(message.data)
+    )
 
-  const encryptedData = await crypto.subtle.encrypt(
-    {
-      name: 'AES-GCM',
-      iv
-    },
-    sessionKey,
-    stringToArrayBuffer(message)
-  )
+    return JSON.parse(Uint8ArrayToString(arrayBufferToUint8Array(buffer)))
+  }
 
-  return {
-    key: wrappedKey,
-    data: encryptedData,
-    iv: iv,
-    signature: (await signMessage(keychain, message)).signature
+  /**
+   * Export this key as a JsonWebKey
+   * @returns A JsonWebKey
+   */
+  async toJWK(): Promise<JsonWebKey> {
+    return await crypto.subtle.exportKey('jwk', this.key)
+  }
+
+  /**
+   * Import a JsonWebKey
+   * @param key A JsonWebKey
+   * @returns A SymmetricKey converted from the JsonWebKey
+   */
+  static async fromJWK(key: JsonWebKey) {
+    const imported = await crypto.subtle.importKey(
+      'jwk',
+      key,
+      {
+        name: 'AES-GCM',
+        length: 256
+      },
+      true,
+      ['encrypt', 'decrypt']
+    )
+
+    return new SymmetricKey(imported)
+  }
+
+  /**
+   * Generate a new SymmmetricKey
+   * @returns A new, unique, SymmmetricKey
+   */
+  static async generate() {
+    const key = await crypto.subtle.generateKey(
+      {
+        name: 'AES-GCM',
+        length: 256
+      },
+      true,
+      ['encrypt', 'decrypt']
+    )
+
+    return new SymmetricKey(key)
+  }
+
+  /**
+   * Generate a salt that can be used with the generateFromPassword method
+   * @returns A random salt
+   */
+  static generateSalt() {
+    return Uint8ArrayToArray(generateSalt())
+  }
+
+  /**
+   * Generate a SymmmetricKey using a password and salt
+   * @returns A SymmmetricKey derived from the supplied password and salt
+   */
+  static async generateFromPassword(password: string, salt: number[]) {
+    const baseKey = await crypto.subtle.importKey(
+      'raw',
+      stringToUint8Array(password),
+      { name: 'PBKDF2' },
+      false,
+      ['deriveKey']
+    )
+
+    const derivedKey = await crypto.subtle.deriveKey(
+      {
+        name: 'PBKDF2',
+        hash: 'SHA-256',
+        salt: arrayToUint8Array(salt),
+        iterations: 100000
+      },
+      baseKey,
+      {
+        name: 'AES-GCM',
+        length: 256
+      },
+      false,
+      ['wrapKey', 'unwrapKey']
+    )
+
+    return new SymmetricKey(derivedKey)
   }
 }
 
 /**
- * Decrypts and verifies the signature of a message
- * @param keychain The recipient's keychain
- * @param publicSigningKey The sender's public signing key
- * @return The unencrypted and verified message
+ * A SigningPair allows you to sign and verify messages
  */
-export const decryptMessage = async (
-  keychain: Keychain,
-  publicSigningKey: CryptoKey,
-  data: EncryptedMessage
-): Promise<VerifiedMessage> => {
-  const sessionKey = await crypto.subtle.unwrapKey(
-    'raw',
-    data.key,
-    keychain.encryptionKeyPair.privateKey!,
-    {
-      name: 'RSA-OAEP'
-    },
-    {
-      name: 'AES-GCM'
-    },
-    true,
-    ['decrypt']
-  )
-  const iv = data.iv
-  const decryptedData = await crypto.subtle.decrypt(
-    {
-      name: 'AES-GCM',
-      iv
-    },
-    sessionKey,
-    data.data
-  )
-  const message = arrayBufferToString(decryptedData)
+export class SigningPair {
+  private pair: CryptoKeyPair
 
-  return {
-    message,
-    verified: (
-      await verifyMessage(
+  constructor(pair: CryptoKeyPair) {
+    this.pair = pair
+  }
+
+  /**
+   * Sign a message
+   * @param message The message to sign, must be JSON serializable
+   * @returns A SignedMessage
+   */
+  async sign(message: any): Promise<SignedMessage> {
+    const data = JSON.stringify(message)
+    const signature = await crypto.subtle.sign(
+      {
+        name: 'ECDSA',
+        hash: 'SHA-512'
+      },
+      this.pair.privateKey!,
+      stringToUint8Array(data)
+    )
+
+    return {
+      data,
+      signature: arrayBufferToArray(signature)
+    }
+  }
+
+  /**
+   * Verify a message using a JsonWebKey and the signed message
+   * @param message The SignedMessage to verify
+   * @param key The public JsonWebKey to verify against
+   * @returns A status code and message if it could be verifies
+   */
+  static async verify(
+    message: SignedMessage,
+    key: JsonWebKey
+  ): Promise<{ ok: false } | { ok: true; message: unknown }> {
+    const imported = await crypto.subtle.importKey(
+      'jwk',
+      key,
+      {
+        name: 'ECDSA',
+        namedCurve: 'P-521'
+      },
+      true,
+      ['verify']
+    )
+
+    const valid = await crypto.subtle.verify(
+      {
+        name: 'ECDSA',
+        hash: 'SHA-512'
+      },
+      imported,
+      arrayToUint8Array(message.signature),
+      stringToUint8Array(message.data)
+    )
+
+    if (valid) {
+      return {
+        ok: true,
+        message: JSON.parse(message.data)
+      }
+    } else {
+      return {
+        ok: false
+      }
+    }
+  }
+
+  /**
+   * Generate a new SigningPair
+   * @returns A new, unique SigningPair
+   */
+  static async generate() {
+    const signing = await crypto.subtle.generateKey(
+      {
+        name: 'ECDSA',
+        namedCurve: 'P-521'
+      },
+      true,
+      ['sign', 'verify']
+    )
+
+    return new SigningPair(signing)
+  }
+
+  /**
+   * Export as a JsonWebKeyPair
+   * @returns A JsonWebKeyPair
+   */
+  async toJWKPair(): Promise<JsonWebKeyPair> {
+    return {
+      publicKey: await crypto.subtle.exportKey('jwk', this.pair.publicKey!),
+      privateKey: await crypto.subtle.exportKey('jwk', this.pair.privateKey!)
+    }
+  }
+
+  /**
+   * Import from a JsonWebKeyPair
+   * @param pair A JsonWebKeyPair
+   * @returns The imported SigningPair
+   */
+  static async fromJWKPair(pair: JsonWebKeyPair) {
+    return new SigningPair({
+      publicKey: await crypto.subtle.importKey(
+        'jwk',
+        pair.publicKey,
         {
-          signature: data.signature,
-          data: decryptedData
+          name: 'ECDSA',
+          namedCurve: 'P-521'
         },
-        publicSigningKey
+        true,
+        ['verify']
+      ),
+      privateKey: await crypto.subtle.importKey(
+        'jwk',
+        pair.privateKey,
+        {
+          name: 'ECDSA',
+          namedCurve: 'P-521'
+        },
+        true,
+        ['sign']
       )
-    ).verified
-  }
-}
-
-export const signMessage = async (
-  keychain: Keychain,
-  message: string
-): Promise<SignedMessage> => {
-  const signature = await crypto.subtle.sign(
-    {
-      name: 'RSA-PSS',
-      saltLength: 32
-    },
-    keychain.signingKeyPair.privateKey!,
-    stringToArrayBuffer(message)
-  )
-
-  return {
-    data: stringToArrayBuffer(message),
-    signature: signature
-  }
-}
-
-export const verifyMessage = async (
-  message: SignedMessage,
-  publicKey: CryptoKey
-): Promise<VerifiedMessage> => {
-  const verified = await crypto.subtle.verify(
-    {
-      name: 'RSA-PSS',
-      saltLength: 32
-    },
-    publicKey,
-    message.signature,
-    message.data
-  )
-  return {
-    verified,
-    message: arrayBufferToString(message.data)
-  }
-}
-/**
- * Generates a new {@link Keychain} used for encrypting session keys and signing
- * @param password The password to generate the {@link authenticationToken} with
- */
-export const generateKeychain = async (password: string): Promise<Keychain> => {
-  const encryptionKeyPair = await crypto.subtle.generateKey(
-    {
-      name: 'RSA-OAEP',
-      modulusLength: 4096,
-      publicExponent: new Uint8Array([1, 0, 1]),
-      hash: 'SHA-256'
-    },
-    true,
-    ['unwrapKey', 'wrapKey']
-  )
-
-  const signingKeyPair = await crypto.subtle.generateKey(
-    {
-      name: 'RSA-PSS',
-      modulusLength: 4096,
-      publicExponent: new Uint8Array([1, 0, 1]),
-      hash: 'SHA-256'
-    },
-    true,
-    ['sign', 'verify']
-  )
-
-  const tokenSalt = crypto.getRandomValues(new Uint8Array(16))
-  const authenticationToken = arrayBufferToBase64(
-    await deriveBitsFromPassword(password, tokenSalt)
-  )
-
-  return {
-    encryptionKeyPair,
-    signingKeyPair,
-    authenticationToken,
-    tokenSalt
+    })
   }
 }
 
 /**
- * Creates a protected keychain to upload to a keyserver
- * @param keychain The user's keychain
- * @param password The password to protect the keychain with
+ * A EncryptionPair allows you to generate session keys for encrypting and decrypting messages to other users
  */
-export const createProtectedKeychain = async (
-  keychain: Keychain,
-  password: string
-): Promise<ProtectedKeychain> => {
-  return {
-    encryption: await createProtectedKeyPair(
-      keychain.encryptionKeyPair,
-      password
-    ),
-    signing: await createProtectedKeyPair(keychain.signingKeyPair, password),
-    tokenSalt: keychain.tokenSalt
-  }
-}
-/**
- * Unlocks a protected keychain with the user's password
- * @param protectedKeychain The user's protected keychain
- * @param password The password used to protect the keychain
- */
-export const unlockProtectedKeychain = async (
-  protectedKeychain: ProtectedKeychain,
-  password: string
-): Promise<Keychain> => {
-  return {
-    encryptionKeyPair: await unlockProtectedKeyPair(
-      protectedKeychain.encryption,
-      password,
-      'RSA-OAEP'
-    ),
-    signingKeyPair: await unlockProtectedKeyPair(
-      protectedKeychain.signing,
-      password,
-      'RSA-PSS'
-    ),
-    authenticationToken: arrayBufferToBase64(
-      await deriveBitsFromPassword(password, protectedKeychain.tokenSalt)
-    ),
-    tokenSalt: protectedKeychain.tokenSalt
-  }
-}
+export class EncryptionPair {
+  private pair: CryptoKeyPair
 
-/**
- * Imports another user's public key
- * @param publicKey The other user's public key
- * @param type The type of public key
- */
-export const importPublicKey = async (
-  publicKey: number[],
-  type: 'encryption' | 'signing'
-) => {
-  return await crypto.subtle.importKey(
-    'spki',
-    arrayToArrayBuffer(publicKey),
-    {
-      name: type === 'encryption' ? 'RSA-OAEP' : 'RSA-PSS',
-      hash: 'SHA-256'
-    },
-    true,
-    type === 'encryption' ? ['wrapKey'] : ['verify']
-  )
-}
-
-/**
- * Exports a signedMessage
- * @param signedMessage The signedMessage to export
- * @returns The exported signedMessage
- */
-export const exportSignedMessage = (
-  signedMessage: SignedMessage
-): ExportedSignedMessage => {
-  return {
-    data: arrayBufferToArray(signedMessage.data),
-    signature: arrayBufferToArray(signedMessage.signature)
+  constructor(pair: CryptoKeyPair) {
+    this.pair = pair
   }
-}
 
-/**
- * Imports an exportedSignedMessage
- * @param exportedSignedMessage The exportedSignedMessage to import
- * @returns The imported signedMessage
- */
-export const importSignedMessage = (
-  exportedSignedMessage: ExportedSignedMessage
-): SignedMessage => {
-  return {
-    data: arrayToArrayBuffer(exportedSignedMessage.data),
-    signature: arrayToArrayBuffer(exportedSignedMessage.signature)
+  /**
+   * Generate a session key from another user's public key
+   * @param publicKey The other user's public key
+   * @returns A session key which can be used to encrypt and decrypt messages to the other user
+   */
+  async sessionKey(publicKey: JsonWebKey) {
+    const otherKey = await crypto.subtle.importKey(
+      'jwk',
+      publicKey,
+      {
+        name: 'ECDH',
+        namedCurve: 'P-521'
+      },
+      true,
+      []
+    )
+
+    const result = await crypto.subtle.deriveKey(
+      {
+        name: 'ECDH',
+        public: otherKey
+      },
+      this.pair.privateKey!,
+      {
+        name: 'AES-GCM',
+        length: 256
+      },
+      true,
+      ['encrypt', 'decrypt']
+    )
+
+    return new SymmetricKey(result)
   }
-}
 
-/**
- * Exports an encryptedMessage
- * @param encryptedMessage The encryptedMessage to export
- * @returns The exported encryptedMessage
- */
-export const exportEncryptedMessage = (
-  encryptedMessage: EncryptedMessage
-): ExportedEncryptedMessage => {
-  return {
-    data: arrayBufferToArray(encryptedMessage.data),
-    signature: arrayBufferToArray(encryptedMessage.signature),
-    key: arrayBufferToArray(encryptedMessage.key),
-    iv: arrayBufferToArray(encryptedMessage.iv)
+  /**
+   * Generate a new EncryptionPair
+   * @returns A new, unique EncryptionPair
+   */
+  static async generate() {
+    const encryption = await crypto.subtle.generateKey(
+      {
+        name: 'ECDH',
+        namedCurve: 'P-521'
+      },
+      true,
+      ['deriveKey']
+    )
+
+    return new EncryptionPair(encryption)
+  }
+
+  /**
+   * Export as a JsonWebKeyPair
+   * @returns A JsonWebKeyPair
+   */
+  async toJWKPair(): Promise<JsonWebKeyPair> {
+    return {
+      publicKey: await crypto.subtle.exportKey('jwk', this.pair.publicKey!),
+      privateKey: await crypto.subtle.exportKey('jwk', this.pair.privateKey!)
+    }
+  }
+
+  /**
+   * Import from a JsonWebKeyPair
+   * @param pair A JsonWebKeyPair
+   * @returns The imported EncryptionPair
+   */
+  static async fromJWKPair(pair: JsonWebKeyPair) {
+    return new EncryptionPair({
+      publicKey: await crypto.subtle.importKey(
+        'jwk',
+        pair.publicKey,
+        {
+          name: 'ECDH',
+          namedCurve: 'P-521'
+        },
+        true,
+        []
+      ),
+      privateKey: await crypto.subtle.importKey(
+        'jwk',
+        pair.privateKey,
+        {
+          name: 'ECDH',
+          namedCurve: 'P-521'
+        },
+        true,
+        ['deriveKey']
+      )
+    })
   }
 }
 
 /**
- * Imports a exportedEncryptedMessage
- * @param exportedEncryptedMessage The exportedEncryptedMessage to import
- * @returns The imported exportedEncryptedMessage
+ * A Keychain holds keys and keypairs used for signing and encryption. It is a high-level interface for managing other components
  */
-export const importEncryptedMessage = (
-  exportedEncryptedMessage: ExportedEncryptedMessage
-): EncryptedMessage => {
-  return {
-    data: arrayToArrayBuffer(exportedEncryptedMessage.data),
-    signature: arrayToArrayBuffer(exportedEncryptedMessage.signature),
-    key: arrayToArrayBuffer(exportedEncryptedMessage.key),
-    iv: arrayToArrayBuffer(exportedEncryptedMessage.iv)
-  }
-}
+export class Keychain {
+  encryption: EncryptionPair
+  signing: SigningPair
+  personal: SymmetricKey
 
-/**
- * Exports a protectedKeychain
- * @param protectedKeychain The protectedKeychain to export
- * @returns The exported protectedKeychain
- */
-export const exportProtectedKeychain = (
-  protectedKeychain: ProtectedKeychain
-): ExportedProtectedKeychain => {
-  return {
-    encryption: exportProtectedKeyPair(protectedKeychain.encryption),
-    signing: exportProtectedKeyPair(protectedKeychain.signing),
-    tokenSalt: arrayBufferToArray(protectedKeychain.tokenSalt)
+  constructor(
+    encryption: EncryptionPair,
+    signing: SigningPair,
+    personal: SymmetricKey
+  ) {
+    this.encryption = encryption
+    this.signing = signing
+    this.personal = personal
   }
-}
 
-/**
- * Imports a protectedKeychain
- * @param exportedProtectedKeychain The exportedProtectedKeychain to import
- * @returns The imported protectedKeychain
- */
-export const importProtectedKeychain = (
-  exportedProtectedKeychain: ExportedProtectedKeychain
-): ProtectedKeychain => {
-  return {
-    encryption: importProtectedKeyPair(exportedProtectedKeychain.encryption),
-    signing: importProtectedKeyPair(exportedProtectedKeychain.signing),
-    tokenSalt: new Uint8Array(exportedProtectedKeychain.tokenSalt)
+  /**
+   * Export as a JsonWebKeyChain
+   * @returns A JsonWebKeyChain
+   */
+  async toJWKChain(): Promise<JsonWebKeyChain> {
+    return {
+      personal: await this.personal.toJWK(),
+      encryption: await this.encryption.toJWKPair(),
+      signing: await this.encryption.toJWKPair()
+    }
   }
-}
 
-export const updateKeychainPassword = async (
-  keychain: Keychain,
-  password: string
-): Promise<Keychain> => {
-  const tokenSalt = crypto.getRandomValues(new Uint8Array(16))
-  const authenticationToken = arrayBufferToBase64(
-    await deriveBitsFromPassword(password, tokenSalt)
-  )
-  return {
-    ...keychain,
-    tokenSalt,
-    authenticationToken
+  /**
+   * Export as a JsonWebKeyPublicChain, which can be shared with others for encryption and signing purposes
+   * @returns A JsonWebKeyPublicChain
+   */
+  async toJWKPublicChain(): Promise<JsonWebKeyPublicChain> {
+    return {
+      encryption: (await this.encryption.toJWKPair()).publicKey,
+      signing: (await this.encryption.toJWKPair()).publicKey
+    }
+  }
+
+  /**
+   * Import a JsonWebKeyChain
+   * @param chain A JsonWebKeyChain to import
+   * @returns The imported Keychain
+   */
+  static async fromJWKChain(chain: JsonWebKeyChain) {
+    return new Keychain(
+      await EncryptionPair.fromJWKPair(chain.encryption),
+      await SigningPair.fromJWKPair(chain.signing),
+      await SymmetricKey.fromJWK(chain.personal)
+    )
+  }
+
+  /**
+   * Generate a Keychain
+   * @returns A new, unique keychain
+   */
+  static async generate() {
+    const encryption = await EncryptionPair.generate()
+    const signing = await SigningPair.generate()
+    const personal = await SymmetricKey.generate()
+
+    return new Keychain(encryption, signing, personal)
   }
 }
