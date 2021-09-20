@@ -1,4 +1,4 @@
-import crypto from 'isomorphic-webcrypto'
+import crypto from '@innatical/isomorphic-webcrypto'
 import {
   arrayBufferToArray,
   arrayBufferToUint8Array,

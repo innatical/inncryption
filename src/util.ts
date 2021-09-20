@@ -1,4 +1,4 @@
-import crypto from 'isomorphic-webcrypto'
+import crypto from '@innatical/isomorphic-webcrypto'
 
 export const stringToUint8Array = (str: string) => {
   return new TextEncoder().encode(str)
