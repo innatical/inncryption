@@ -187,7 +187,7 @@ export class SymmetricKey {
         length: 256
       },
       true,
-      ['wrapKey', 'unwrapKey']
+      ['encrypt', 'decrypt']
     )
 
     return new SymmetricKey(derivedKey)
