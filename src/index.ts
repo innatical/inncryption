@@ -170,7 +170,7 @@ export class SymmetricKey {
       'raw',
       stringToUint8Array(password),
       { name: 'PBKDF2' },
-      false,
+      true,
       ['deriveKey']
     )
 
@@ -186,7 +186,7 @@ export class SymmetricKey {
         name: 'AES-GCM',
         length: 256
       },
-      false,
+      true,
       ['wrapKey', 'unwrapKey']
     )
 
