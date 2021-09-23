@@ -170,7 +170,7 @@ export class SymmetricKey {
       'raw',
       stringToUint8Array(password),
       { name: 'PBKDF2' },
-      true,
+      false,
       ['deriveKey']
     )
 
