@@ -26,7 +26,6 @@
     "dist/"
   ],
   "dependencies": {
-    "@innatical/isomorphic-webcrypto": "^2.3.9",
     "@peculiar/webcrypto": "^1.2.2"
   }
 }
