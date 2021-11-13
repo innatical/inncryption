@@ -1,4 +1,3 @@
-import crypto from '@innatical/isomorphic-webcrypto'
 import {
   arrayBufferToArray,
   arrayBufferToUint8Array,
@@ -10,6 +9,10 @@ import {
   Uint8ArrayToString,
   generateSalt
 } from './util'
+
+let crypto: Crypto = !globalThis?.crypto?.subtle
+  ? new (require('@peculiar/webcrypto').Crypto)()
+  : globalThis.crypto
 
 // Interfaces
 

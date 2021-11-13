@@ -1,4 +1,6 @@
-import crypto from '@innatical/isomorphic-webcrypto'
+let crypto: Crypto = !globalThis?.crypto?.subtle
+  ? new (require('@peculiar/webcrypto').Crypto)()
+  : globalThis.crypto
 
 export const stringToUint8Array = (str: string) => {
   return new TextEncoder().encode(str)

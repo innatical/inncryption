@@ -579,6 +579,17 @@
     tslib "^2.2.0"
     webcrypto-core "^1.2.0"
 
+"@peculiar/webcrypto@^1.2.2":
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/@peculiar/webcrypto/-/webcrypto-1.2.2.tgz#bc0532c26191fbb100099b67996f797c170a013a"
+  integrity sha512-xb8MEgfq93TAkIb70kn+llZgIFQwhdiCiOJHzekVTAS74Y+ae5bZn8KEsuycop/LXAm1kx+Kad/v9eTDTWuY/w==
+  dependencies:
+    "@peculiar/asn1-schema" "^2.0.38"
+    "@peculiar/json-schema" "^1.1.12"
+    pvtsutils "^1.2.1"
+    tslib "^2.3.1"
+    webcrypto-core "^1.3.0"
+
 "@sinonjs/commons@^1.7.0":
   version "1.8.3"
   resolved "https://registry.yarnpkg.com/@sinonjs/commons/-/commons-1.8.3.tgz#3802ddd21a50a949b6721ddd72da36e67e7f1b2d"
@@ -2573,7 +2584,7 @@ punycode@^2.1.1:
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.1.1.tgz#b58b010ac40c22c5657616c8d2c2c02c7bf479ec"
   integrity sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==
 
-pvtsutils@^1.1.2, pvtsutils@^1.1.6, pvtsutils@^1.2.0:
+pvtsutils@^1.1.2, pvtsutils@^1.1.6, pvtsutils@^1.2.0, pvtsutils@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/pvtsutils/-/pvtsutils-1.2.1.tgz#8212e846ca9afb21e40cebb0691755649f9f498a"
   integrity sha512-Q867jEr30lBR2YSFFLZ0/XsEvpweqH6Kj096wmlRAFXrdRGPCNq2iz9B5Tk085EZ+OBZyYAVA5UhPkjSHGrUzQ==
@@ -3005,6 +3016,17 @@ webcrypto-core@^1.2.0:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/webcrypto-core/-/webcrypto-core-1.2.1.tgz#33f451a4c4faf159e74589436c80ca33998abad6"
   integrity sha512-5+h1/e/A4eegCRTg+oQ9ehTJRTMwFhZazJ2RH1FP0VC3q1/0xl7x6SzzTwPxd/VTGc7kjuSEJGnfNgoLe5jNRQ==
+  dependencies:
+    "@peculiar/asn1-schema" "^2.0.38"
+    "@peculiar/json-schema" "^1.1.12"
+    asn1js "^2.1.1"
+    pvtsutils "^1.2.0"
+    tslib "^2.3.1"
+
+webcrypto-core@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/webcrypto-core/-/webcrypto-core-1.3.0.tgz#848c5af59785634de1408e7b8a659c14738f4cab"
+  integrity sha512-/+Hz+uNM6T8FtizWRYMNdGTXxWaljLFzQ5GKU4WqCTZKpaki94YqDA39h/SpWxEZfgkVMZzrqqtPlfy2+BloQw==
   dependencies:
     "@peculiar/asn1-schema" "^2.0.38"
     "@peculiar/json-schema" "^1.1.12"
