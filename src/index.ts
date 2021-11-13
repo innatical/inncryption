@@ -117,7 +117,6 @@ export class SymmetricKey {
    */
   async toJWK(): Promise<JsonWebKey> {
     const key = await crypto.subtle.exportKey('jwk', this.key)
-    key.key_ops = ['encrypt', 'decrypt']
     return key
   }
 
@@ -302,9 +301,6 @@ export class SigningPair {
       this.pair.privateKey!
     )
 
-    publicKey.key_ops = ['verify']
-    privateKey.key_ops = ['sign']
-
     return {
       publicKey,
       privateKey
@@ -414,9 +410,6 @@ export class EncryptionPair {
       this.pair.privateKey!
     )
 
-    publicKey.key_ops = []
-    privateKey.key_ops = ['deriveKey']
-
     return {
       publicKey,
       privateKey
@@ -480,7 +473,7 @@ export class Keychain {
     return {
       personal: await this.personal.toJWK(),
       encryption: await this.encryption.toJWKPair(),
-      signing: await this.encryption.toJWKPair()
+      signing: await this.signing.toJWKPair()
     }
   }
 
