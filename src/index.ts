@@ -484,7 +484,7 @@ export class Keychain {
   async toJWKPublicChain(): Promise<JsonWebKeyPublicChain> {
     return {
       encryption: (await this.encryption.toJWKPair()).publicKey,
-      signing: (await this.encryption.toJWKPair()).publicKey
+      signing: (await this.signing.toJWKPair()).publicKey
     }
   }
 
