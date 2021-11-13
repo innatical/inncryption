@@ -116,7 +116,9 @@ export class SymmetricKey {
    * @returns A JsonWebKey
    */
   async toJWK(): Promise<JsonWebKey> {
-    return await crypto.subtle.exportKey('jwk', this.key)
+    const key = await crypto.subtle.exportKey('jwk', this.key)
+    key.key_ops = ['encrypt', 'decrypt']
+    return key
   }
 
   /**
@@ -294,9 +296,18 @@ export class SigningPair {
    * @returns A JsonWebKeyPair
    */
   async toJWKPair(): Promise<JsonWebKeyPair> {
+    const publicKey = await crypto.subtle.exportKey('jwk', this.pair.publicKey!)
+    const privateKey = await crypto.subtle.exportKey(
+      'jwk',
+      this.pair.privateKey!
+    )
+
+    publicKey.key_ops = ['verify']
+    privateKey.key_ops = ['sign']
+
     return {
-      publicKey: await crypto.subtle.exportKey('jwk', this.pair.publicKey!),
-      privateKey: await crypto.subtle.exportKey('jwk', this.pair.privateKey!)
+      publicKey,
+      privateKey
     }
   }
 
@@ -397,9 +408,18 @@ export class EncryptionPair {
    * @returns A JsonWebKeyPair
    */
   async toJWKPair(): Promise<JsonWebKeyPair> {
+    const publicKey = await crypto.subtle.exportKey('jwk', this.pair.publicKey!)
+    const privateKey = await crypto.subtle.exportKey(
+      'jwk',
+      this.pair.privateKey!
+    )
+
+    publicKey.key_ops = []
+    privateKey.key_ops = ['deriveKey']
+
     return {
-      publicKey: await crypto.subtle.exportKey('jwk', this.pair.publicKey!),
-      privateKey: await crypto.subtle.exportKey('jwk', this.pair.privateKey!)
+      publicKey,
+      privateKey
     }
   }
 
