@@ -1,6 +1,6 @@
 {
   "name": "@innatical/inncryption",
-  "version": "2.0.8",
+  "version": "2.0.9",
   "description": "An awesome crypto library",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
